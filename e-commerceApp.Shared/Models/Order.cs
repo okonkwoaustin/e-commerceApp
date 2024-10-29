@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using e_commerceApp.Shared.Enum;
 
-namespace e_commerceApp.Shared.Models.Auth
+namespace e_commerceApp.Shared.Models
 {
     public class Order
     {
@@ -12,7 +8,6 @@ namespace e_commerceApp.Shared.Models.Auth
         public int CustomerId { get; set; }
         public DateTime OrderDate { get; set; }
         public OrderStatus OrderStatus { get; set; }
-        public PaymentSatus PaymentSatus { get; set; }
         public decimal TotalAmount { get; set; }
         public List<OrderItem> OrderItems { get; set; }
     }

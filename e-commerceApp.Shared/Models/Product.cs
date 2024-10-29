@@ -11,16 +11,16 @@ namespace e_commerceApp.Shared.Models
         public string Description { get; set; }
         public double Price { get; set; }
         public string ImageUrl { get; set; }
+        //public ProductCategory Cartegory { get; set; }
+        //public string CartegoryId { get; set; }
+        public int StockQuantity { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public ProductStatus ProductStatus { get; set; }
         //Relationship
-        public List<ActorMovie> ActorMovies { get; set; }
-        //Cinema
-        public int CinemaId { get; set; }
-        public Cinema Cinema { get; set; }
-        //Producer
-        public int ProducerId { get; set; }
-        public Producer Producer { get; set; }
+
+        //public List<Review> Reviews { get; set; }
+        //public List<OrderItem> OrderItems { get; set; }
+
     }
 }
