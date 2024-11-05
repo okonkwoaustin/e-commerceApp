@@ -9,7 +9,7 @@ namespace e_commerceApp.Shared.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public double Price { get; set; }
+        public decimal Price { get; set; }
         public string ImageUrl { get; set; }
         //public ProductCategory Cartegory { get; set; }
         //public string CartegoryId { get; set; }
@@ -19,7 +19,7 @@ namespace e_commerceApp.Shared.Models
         public ProductStatus ProductStatus { get; set; }
         //Relationship
 
-        //public List<Review> Reviews { get; set; }
+        public List<Review> Reviews { get; set; }
         //public List<OrderItem> OrderItems { get; set; }
 
     }

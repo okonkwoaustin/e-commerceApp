@@ -46,6 +46,9 @@ var services = builder.Services;
 var configuration = builder.Configuration;
 services.AddScoped<ITokenService, TokenService>();
 services.AddScoped<IUserService, UserService>();
+services.AddScoped<IProductService, ProductService>();
+services.AddScoped<IOrderService, OrderService>();
+services.AddScoped<IShoppingCartService, ShoppingCartService>();
 
 services.AddDbContext<EcommDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("Default"),
     sqlOption => sqlOption.EnableRetryOnFailure(50)
