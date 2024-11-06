@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using e_commerceApp.Shared.Data;
 
@@ -11,9 +12,10 @@ using e_commerceApp.Shared.Data;
 namespace e_commerceApp.Shared.Migrations
 {
     [DbContext(typeof(EcommDbContext))]
-    partial class EcommDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241106124921_UsersChange")]
+    partial class UsersChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

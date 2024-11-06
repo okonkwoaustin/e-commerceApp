@@ -22,6 +22,10 @@ namespace e_commerceApp.Api.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> CreateUser([FromBody] SignUpModel signUp)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             var result = await _userService.CreateUser(signUp);
             return result;
         }
@@ -51,6 +55,37 @@ namespace e_commerceApp.Api.Controllers
 
             //return token in the response
             return Ok(new { Token = token });
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            var user = await _userService.GetUserById(id);
+            if (user == null) return NotFound();
+            return Ok(user);
+        }
+
+        [HttpGet("AllUsers")]
+        public async Task<IEnumerable<User>> GetAllUsers()
+        {
+            return await _userService.GetAllUsers();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, User updatedUser)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var success = await _userService.UpdateUser(id, updatedUser);
+            if (!success) return NotFound();
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var success = await _userService.DeleteUser(id);
+            if (!success) return NotFound();
+            return Ok("User Deleted successfully");
         }
     }
 }

@@ -2,6 +2,7 @@
 using e_commerceApp.Shared.Models.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Data;
 namespace e_commerceApp.Application.Services.Implementation
@@ -49,9 +50,18 @@ namespace e_commerceApp.Application.Services.Implementation
             return user;
         }
 
-        public Task<ObjectResult> ConfirmEmail(string email, string token)
+        public async Task<ObjectResult> ConfirmEmail(string email, string token)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByNameAsync(email);
+            if (user != null)
+            {
+                var result = await _userManager.ConfirmEmailAsync(user, token);
+                if (result.Succeeded)
+                {
+                    return new OkObjectResult("Your email has been confirmed successfully.");
+                }
+            }
+            return new BadRequestObjectResult("Something went wrong your email has not been confirmed please try again");
         }
 
         public async Task<ObjectResult> CreateUser(SignUpModel signUpModel)
@@ -93,9 +103,9 @@ namespace e_commerceApp.Application.Services.Implementation
                 }
 
 
-                _logger.LogInformation("User created and role assigned successfully.");
-                return new OkObjectResult(new { Message = "User created successfully" });
-            
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                return new OkObjectResult($"User has been created successfully");
+
             }
             catch (Exception ex)
             {
@@ -107,10 +117,30 @@ namespace e_commerceApp.Application.Services.Implementation
             }
         }
 
+        public async Task<bool> DeleteUser(int userId)
+        {
+            var user = await GetUserById(userId);
+            if (user == null) return false;
+
+            var result = await _userManager.DeleteAsync(user);
+            return result.Succeeded;
+        }
+
+        public async Task<IEnumerable<User>> GetAllUsers()
+        {
+            return await _userManager.Users.ToListAsync();
+        }
+
         public async Task<List<string>> GetRolesByUser(User user)
         {
             var role = await _userManager.GetRolesAsync(user);
             return role.ToList();
+        }
+
+        public async Task<User> GetUserById(int userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            return user;
         }
 
         public async Task<User> GetUserIfExists(string email)
@@ -126,6 +156,22 @@ namespace e_commerceApp.Application.Services.Implementation
                 _logger.LogError($"Error: {ex.Message} {ex.StackTrace}");
                 throw;
             }
+        }
+
+        public async Task<bool> UpdateUser(int userId, User updatedUser)
+        {
+            var user = await GetUserById(userId);
+            if (user == null) return false;
+
+            user.FirstName = updatedUser.FirstName;
+            user.LastName = updatedUser.LastName;
+            user.Address = updatedUser.Address;
+            user.PhoneNumber = updatedUser.PhoneNumber;
+            user.IsActive = updatedUser.IsActive;
+            user.UpdatedAt = DateTime.UtcNow;
+
+            var result = await _userManager.UpdateAsync(user);
+            return result.Succeeded;
         }
     }
 }

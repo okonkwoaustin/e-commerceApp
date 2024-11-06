@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using e_commerceApp.Shared.Data;
 
@@ -11,9 +12,10 @@ using e_commerceApp.Shared.Data;
 namespace e_commerceApp.Shared.Migrations
 {
     [DbContext(typeof(EcommDbContext))]
-    partial class EcommDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241101193634_Products")]
+    partial class Products
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,14 +57,14 @@ namespace e_commerceApp.Shared.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "f7dd0904-c930-450c-918f-f6fc4922c4be",
+                            ConcurrencyStamp = "07a65cd9-ae60-4d47-9f3a-7a92cab4ca8a",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "00299b7e-3a84-4e73-a18b-eaa1de64043d",
+                            ConcurrencyStamp = "78dd3d25-874e-473c-8c19-fce14456b9f6",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -99,9 +101,6 @@ namespace e_commerceApp.Shared.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
