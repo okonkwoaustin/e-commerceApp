@@ -37,5 +37,20 @@ namespace e_commerceApp.Shared.Persistence.Implementations
             _ecommDbContext.Products.Remove(productDetail);
             
         }
+
+        public Task<Product> GetProductById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Product> AddProduct(Product product)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Product> UpdateProduct(Product product)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
