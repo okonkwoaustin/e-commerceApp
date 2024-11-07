@@ -1,3 +1,4 @@
+using e_commerceApp.Application.Configs.Payment;
 using e_commerceApp.Application.Services.Implementation;
 using e_commerceApp.Application.Services.Interface;
 using e_commerceApp.Shared.Data;
@@ -46,6 +47,9 @@ var services = builder.Services;
 var configuration = builder.Configuration;
 services.AddScoped<ITokenService, TokenService>();
 services.AddScoped<IUserService, UserService>();
+services.AddScoped<IPaymentService, PaymentService>();
+
+services.Configure<PayPalSettings>(configuration.GetSection("PayPal"));
 
 services.AddDbContext<EcommDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("Default"),
     sqlOption => sqlOption.EnableRetryOnFailure(50)
@@ -102,7 +106,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseCors("AllowAll");
+
+app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();
