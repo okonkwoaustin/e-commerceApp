@@ -1,3 +1,4 @@
+using e_commerceApp.Application.Mapping;
 using e_commerceApp.Application.Services.Implementation;
 using e_commerceApp.Application.Services.Interface;
 using e_commerceApp.Shared.Data;
@@ -44,11 +45,15 @@ builder.Services.AddSwaggerGen(c =>
 
 var services = builder.Services;
 var configuration = builder.Configuration;
+
+builder.Services.AddAutoMapper(typeof(MappingConfig));
 services.AddScoped<ITokenService, TokenService>();
 services.AddScoped<IUserService, UserService>();
 services.AddScoped<IProductService, ProductService>();
 services.AddScoped<IOrderService, OrderService>();
 services.AddScoped<IShoppingCartService, ShoppingCartService>();
+services.AddScoped<ICategoryService, CategoryService>();
+services.AddScoped<IEmployeeService, EmployeeService>();
 
 services.AddDbContext<EcommDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("Default"),
     sqlOption => sqlOption.EnableRetryOnFailure(50)
@@ -86,13 +91,21 @@ services.AddAuthentication(options =>
 
         };
     });
-services.AddCors(options =>
+//services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowAll",
+//        builder => builder
+//            .AllowAnyOrigin()
+//            .AllowAnyMethod()
+//            .AllowAnyHeader());
+//});
+var apiBaseUrl = builder.Configuration.GetValue<string>("ApiSettings:BaseUrl");
+builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
-        builder => builder
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader());
+    options.AddPolicy("AllowAll", policy =>
+        policy.WithOrigins(apiBaseUrl)  // Allow requests from Blazor Server
+              .AllowAnyHeader()
+              .AllowAnyMethod());
 });
 
 var app = builder.Build();

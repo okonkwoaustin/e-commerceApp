@@ -1,4 +1,5 @@
-﻿using e_commerceApp.Application.Services.Interface;
+﻿using e_commerceApp.Application.Dto;
+using e_commerceApp.Application.Services.Interface;
 using e_commerceApp.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -25,7 +26,7 @@ namespace e_commerceApp.Api.Controllers
         }
 
         [HttpPost("Create")]
-        public IActionResult Create( Product product)
+        public IActionResult Create(CreateProduct product)
         {
             return Ok(_productService.AddProduct(product));
         }
@@ -36,14 +37,23 @@ namespace e_commerceApp.Api.Controllers
            return Ok(await _productService.GetProductByIdAsync(id));
         }
         [HttpPost("UpdateProduct")]
-        public async Task<IActionResult> Edit(Product product, int id)
+        public async Task<IActionResult> Edit(UpdateProduct product, int id)
         {
                 return Ok(await _productService.UpdateProduct(id, product));
         }
         [HttpPost]
-        public IActionResult DeleteActor(int id)
+        public IActionResult DeleteProduct(int id)
         {
             return Ok(_productService.DeleteProductByIdAsync(id));
+        }
+
+        [HttpGet("paged")]
+        public async Task<ActionResult<PagedResult<Product>>> GetPagedProducts(
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10)
+        {
+            var result = await _productService.GetPagedProductsAsync(pageNumber, pageSize);
+            return Ok(result);
         }
     }
 }

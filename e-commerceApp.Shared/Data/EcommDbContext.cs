@@ -19,10 +19,13 @@ namespace e_commerceApp.Shared.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+        public DbSet<Category> Categorys { get; set; }
+        public DbSet<Employee> Employees { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             SeedRole(builder);
+            builder.GenerateSeed();
         }
 
         private void SeedRole(ModelBuilder builder)

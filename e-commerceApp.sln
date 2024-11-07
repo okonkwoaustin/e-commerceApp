@@ -3,16 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "e-commerceApp.Api", "e-commerceApp.Api\e-commerceApp.Api.csproj", "{DA3E4775-5896-4F9D-8F44-5F6D98B7D90D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "e-commerceApp.Api", "e-commerceApp.Api\e-commerceApp.Api.csproj", "{DA3E4775-5896-4F9D-8F44-5F6D98B7D90D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "e-commerceApp.Shared", "e-commerceApp.Shared\e-commerceApp.Shared.csproj", "{A36CC005-C459-4DB2-BB45-1B059CE715C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "e-commerceApp.Shared", "e-commerceApp.Shared\e-commerceApp.Shared.csproj", "{A36CC005-C459-4DB2-BB45-1B059CE715C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "e-commerceApp.Application", "e-commerceApp.Application\e-commerceApp.Application.csproj", "{2D25E1A2-3DBB-4C3F-A24F-D1554D54EE59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "e-commerceApp.Application", "e-commerceApp.Application\e-commerceApp.Application.csproj", "{2D25E1A2-3DBB-4C3F-A24F-D1554D54EE59}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1F385C63-B140-4718-B9BE-04B8ED1979D8}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ecommerce.Client", "ecommerce.Client\ecommerce.Client.csproj", "{8BB437A5-D54D-4154-AB2C-C8097F732580}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +34,10 @@ Global
 		{2D25E1A2-3DBB-4C3F-A24F-D1554D54EE59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D25E1A2-3DBB-4C3F-A24F-D1554D54EE59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D25E1A2-3DBB-4C3F-A24F-D1554D54EE59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BB437A5-D54D-4154-AB2C-C8097F732580}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BB437A5-D54D-4154-AB2C-C8097F732580}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BB437A5-D54D-4154-AB2C-C8097F732580}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BB437A5-D54D-4154-AB2C-C8097F732580}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

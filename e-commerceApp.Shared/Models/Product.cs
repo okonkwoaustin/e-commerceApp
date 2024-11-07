@@ -11,8 +11,8 @@ namespace e_commerceApp.Shared.Models
         public string Description { get; set; }
         public decimal Price { get; set; }
         public string ImageUrl { get; set; }
-        //public ProductCategory Cartegory { get; set; }
-        //public string CartegoryId { get; set; }
+        public Category Cartegory { get; set; }
+        public string CartegoryId { get; set; }
         public int StockQuantity { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
