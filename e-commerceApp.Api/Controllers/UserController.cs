@@ -20,6 +20,7 @@ namespace e_commerceApp.Api.Controllers
         }
 
         [HttpPost("Register")]
+        [AllowAnonymous]
         public async Task<IActionResult> CreateUser([FromBody] SignUpModel signUp)
         {
             if (!ModelState.IsValid)
@@ -58,6 +59,7 @@ namespace e_commerceApp.Api.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetUserById(int id)
         {
             var user = await _userService.GetUserById(id);
@@ -66,21 +68,24 @@ namespace e_commerceApp.Api.Controllers
         }
 
         [HttpGet("AllUsers")]
+        [Authorize]
         public async Task<IEnumerable<User>> GetAllUsers()
         {
             return await _userService.GetAllUsers();
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateUser(int id, User updatedUser)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var success = await _userService.UpdateUser(id, updatedUser);
             if (!success) return NotFound();
-            return NoContent();
+            return Ok("User updated successfully");
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteUser(int id)
         {
             var success = await _userService.DeleteUser(id);
