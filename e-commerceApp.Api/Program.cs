@@ -3,10 +3,10 @@ using e_commerceApp.Application.Services.Implementation;
 using e_commerceApp.Application.Services.Interface;
 using e_commerceApp.Shared.Data;
 using e_commerceApp.Shared.Models.Auth;
+using e_commerceApp.Shared.Models.Email;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -15,7 +15,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
+{
+    options.SuppressMapClientErrors = true;
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -45,9 +48,19 @@ builder.Services.AddSwaggerGen(c =>
 
 var services = builder.Services;
 var configuration = builder.Configuration;
+//Add email configuration
+var emailConfig = configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
+services.AddSingleton(emailConfig);
+services.AddScoped<IEmailService, EmailService>();
+
 services.AddScoped<ITokenService, TokenService>();
 services.AddScoped<IUserService, UserService>();
 services.AddScoped<IPaymentService, PaymentService>();
+
+
+//Add config for Required email
+services.Configure<IdentityOptions>(
+    options => options.SignIn.RequireConfirmedEmail = false);
 
 services.Configure<PayPalSettings>(configuration.GetSection("PayPal"));
 

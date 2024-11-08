@@ -1,9 +1,16 @@
 ﻿using e_commerceApp.Application.Services.Interface;
 using e_commerceApp.Shared.Models.Auth;
+using e_commerceApp.Shared.Models.Email;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Org.BouncyCastle.Asn1.Ocsp;
+using System;
 using System.Data;
 namespace e_commerceApp.Application.Services.Implementation
 {
@@ -12,14 +19,20 @@ namespace e_commerceApp.Application.Services.Implementation
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<Role> _roleManager;
-        private readonly ILogger<UserService> _logger;
+        private readonly IEmailService _emailService;
+        private readonly ILogger<UserService> _logger; 
+        private readonly IUrlHelperFactory _urlHelperFactory;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserService(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<Role> roleManager, ILogger<UserService> logger)
+        public UserService(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<Role> roleManager, ILogger<UserService> logger, IEmailService emailService, IUrlHelperFactory urlHelperFactory, IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _logger = logger;
+            _emailService = emailService;
+            _urlHelperFactory = urlHelperFactory;
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task<User> AuthenticateUser(string email, string password)
         {
@@ -102,9 +115,22 @@ namespace e_commerceApp.Application.Services.Implementation
                     return new UnprocessableEntityObjectResult($"Role assignment failed: {roleErrorDescriptions}");
                 }
 
+                var actionContext = new ActionContext(_httpContextAccessor.HttpContext, new RouteData(), new ActionDescriptor());
+                var urlHelper = _urlHelperFactory.GetUrlHelper(actionContext);
+                var scheme = _httpContextAccessor.HttpContext.Request.Scheme;
 
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                return new OkObjectResult($"User has been created successfully");
+                var confirmationUrl = urlHelper.Action(nameof(ConfirmEmail), "User", new { token, email = user.Email }, scheme);
+
+                if (confirmationUrl == null)
+                {
+                    _logger.LogError("Failed to generate confirmation URL.");
+                    return new ObjectResult("Failed to generate confirmation URL.") { StatusCode = 500 };
+                }
+
+                var message = new Message(new string[] { user.Email }, "Confirmation Email link", confirmationUrl!);
+                 _emailService.SendEmail(message);
+                return new OkObjectResult($"User has been created successfully, Please confirm your email.");
 
             }
             catch (Exception ex)
