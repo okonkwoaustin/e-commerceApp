@@ -2,7 +2,9 @@
 using e_commerceApp.Shared.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace e_commerceApp.Api.Controllers
 {
@@ -12,11 +14,15 @@ namespace e_commerceApp.Api.Controllers
     {
         private readonly IUserService _userService;
         private readonly ITokenService _tokenService;
+        private readonly UserManager<User> _userManager;
+        private readonly IEmailService _emailService;
 
-        public UserController(IUserService userService, ITokenService tokenService)
+        public UserController(IUserService userService, ITokenService tokenService, UserManager<User> userManager, IEmailService emailService)
         {
             _userService = userService;
             _tokenService = tokenService;
+            _userManager = userManager;
+            _emailService = emailService;
         }
 
         [HttpPost("Register")]
@@ -57,6 +63,20 @@ namespace e_commerceApp.Api.Controllers
             //return token in the response
             return Ok(new { Token = token });
         }
+        [HttpGet]
+        public async Task<ObjectResult> ConfirmEmail(string email, string token)
+        {
+            var user = await _userManager.FindByNameAsync(email);
+            if (user != null)
+            {
+                var result = await _userManager.ConfirmEmailAsync(user, token);
+                if (result.Succeeded)
+                {
+                    return new OkObjectResult("Your email has been confirmed successfully.");
+                }
+            }
+            return new BadRequestObjectResult("Something went wrong your email has not been confirmed please try again");
+        }
 
         [HttpGet("{id}")]
         [Authorize]
@@ -91,6 +111,23 @@ namespace e_commerceApp.Api.Controllers
             var success = await _userService.DeleteUser(id);
             if (!success) return NotFound();
             return Ok("User Deleted successfully");
+        }
+
+        [Authorize]
+        [HttpGet("get-signed-in-user")]
+        public IActionResult GetSignedInUser()
+        {
+            var currentUser = HttpContext.User;
+            var firstName = currentUser.Claims.FirstOrDefault(c => c.Type == "firstName").Value;
+            var lastName = currentUser.Claims.FirstOrDefault(c => c.Type == "lastName").Value;
+
+            var phone = currentUser.Claims.FirstOrDefault(c => c.Type == "phoneNumber").Value;
+
+            var isAdmin = false;
+            if (currentUser.HasClaim(c => c.Type == ClaimTypes.Role))
+                isAdmin = true;
+
+            return Ok(new { FirstName = firstName, LastName = lastName, Phone = phone, IsAdmin = isAdmin });
         }
     }
 }
