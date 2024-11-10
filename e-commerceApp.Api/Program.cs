@@ -1,22 +1,26 @@
 using e_commerceApp.Application.Mapping;
+using e_commerceApp.Application.Configs.Payment;
 using e_commerceApp.Application.Services.Implementation;
 using e_commerceApp.Application.Services.Interface;
 using e_commerceApp.Shared.Data;
 using e_commerceApp.Shared.Models;
 using e_commerceApp.Shared.Models.Auth;
+using e_commerceApp.Shared.Models.Email;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-//using Stripe;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
+{
+    options.SuppressMapClientErrors = true;
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -52,8 +56,21 @@ var configuration = builder.Configuration;
 services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 
 builder.Services.AddAutoMapper(typeof(MappingConfig));
+//Add email configuration
+var emailConfig = configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
+services.AddSingleton(emailConfig);
+services.AddScoped<IEmailService, EmailService>();
+
 services.AddScoped<ITokenService, TokenService>();
 services.AddScoped<IUserService, UserService>();
+services.AddScoped<IPaymentService, PaymentService>();
+
+
+//Add config for Required email
+services.Configure<IdentityOptions>(
+    options => options.SignIn.RequireConfirmedEmail = false);
+
+services.Configure<PayPalSettings>(configuration.GetSection("PayPal"));
 services.AddScoped<IProductService, ProductService>();
 services.AddScoped<IOrderService, OrderService>();
 services.AddScoped<IShoppingCartService, ShoppingCartService>();
@@ -124,6 +141,7 @@ if (app.Environment.IsDevelopment())
 }
 Stripe.StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 app.UseHttpsRedirection();
+
 app.UseCors("AllowAll");
 
 app.UseAuthentication();

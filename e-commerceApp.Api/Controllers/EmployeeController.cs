@@ -1,9 +1,5 @@
-﻿using e_commerceApp.Application.Dto;
-using e_commerceApp.Application.Services.Implementation;
-using e_commerceApp.Application.Services.Interface;
+﻿using e_commerceApp.Application.Services.Interface;
 using e_commerceApp.Shared.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace e_commerceApp.Api.Controllers

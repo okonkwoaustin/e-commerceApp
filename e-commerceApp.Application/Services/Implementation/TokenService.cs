@@ -56,6 +56,7 @@ namespace e_commerceApp.Application.Services.Implementation
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim("firstName", user.FirstName),
                 new Claim("lastName", user.LastName),
+                new Claim("phoneNumber", user.PhoneNumber),
                 new Claim("UserId", user.Id.ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, userIdInt.ToString())
