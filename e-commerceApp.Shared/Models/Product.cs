@@ -1,5 +1,6 @@
 ﻿using e_commerceApp.Shared.Enum;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace e_commerceApp.Shared.Models
 {
@@ -11,8 +12,9 @@ namespace e_commerceApp.Shared.Models
         public string Description { get; set; }
         public decimal Price { get; set; }
         public string ImageUrl { get; set; }
+        public int CartegoryId { get; set; }
+        [ForeignKey("CartegoryId")]
         public Category Cartegory { get; set; }
-        public string CartegoryId { get; set; }
         public int StockQuantity { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }

@@ -10,5 +10,7 @@ namespace e_commerceApp.Application.Services.Interface
         decimal GetShoppingCartTotal();
         Task ClearShoppingCartAsync();
         List<ShoppingCartItem> ShoppingCartItems { get; set; }
+        Task<bool> IncrementItemCountAsync(int cartId);
+        Task<bool> DecrementItemCountAsync(int cartId);
     }
 }

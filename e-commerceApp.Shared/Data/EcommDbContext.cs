@@ -4,6 +4,7 @@ using e_commerceApp.Shared.Models;
 using e_commerceApp.Shared.Models.Auth;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace e_commerceApp.Shared.Data
 {
@@ -18,12 +19,21 @@ namespace e_commerceApp.Shared.Data
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<OrderHeader> OrderHeaders { get; set; }
         public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
         public DbSet<Category> Categorys { get; set; }
         public DbSet<Employee> Employees { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<OrderDetail>()
+              .HasOne(od => od.OrderHeader) 
+              .WithMany(oh => oh.OrderDetails)
+              .HasForeignKey(od => od.OrderHeaderId) 
+              .OnDelete(DeleteBehavior.Restrict);
+
             SeedRole(builder);
             builder.GenerateSeed();
         }
@@ -37,5 +47,6 @@ namespace e_commerceApp.Shared.Data
                 new Role
                 { Id = 2, Name = "User", NormalizedName = "USER", ConcurrencyStamp = Guid.NewGuid().ToString() });
         }
+
     }
 }

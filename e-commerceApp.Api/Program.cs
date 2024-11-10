@@ -2,6 +2,7 @@ using e_commerceApp.Application.Mapping;
 using e_commerceApp.Application.Services.Implementation;
 using e_commerceApp.Application.Services.Interface;
 using e_commerceApp.Shared.Data;
+using e_commerceApp.Shared.Models;
 using e_commerceApp.Shared.Models.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -9,11 +10,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+//using Stripe;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -46,6 +49,8 @@ builder.Services.AddSwaggerGen(c =>
 var services = builder.Services;
 var configuration = builder.Configuration;
 
+services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 services.AddScoped<ITokenService, TokenService>();
 services.AddScoped<IUserService, UserService>();
@@ -54,6 +59,7 @@ services.AddScoped<IOrderService, OrderService>();
 services.AddScoped<IShoppingCartService, ShoppingCartService>();
 services.AddScoped<ICategoryService, CategoryService>();
 services.AddScoped<IEmployeeService, EmployeeService>();
+services.AddHttpContextAccessor();
 
 services.AddDbContext<EcommDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("Default"),
     sqlOption => sqlOption.EnableRetryOnFailure(50)
@@ -116,9 +122,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+Stripe.StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

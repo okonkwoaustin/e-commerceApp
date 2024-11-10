@@ -11,5 +11,6 @@ namespace e_commerceApp.Shared.Models.Auth
         public string? Address { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        public ICollection<OrderHeader> OrderHeaders { get; set; } = new List<OrderHeader>();
     }
 }

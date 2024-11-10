@@ -50,12 +50,16 @@ namespace e_commerceApp.Application.Services.Implementation
         private List<Claim> CreateClaims(User user, List<string> roles)
         {
             var claims = new List<Claim>();
+            var userIdInt = new Random().Next(1, int.MaxValue);
             claims.AddRange(new[]
             {
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim("firstName", user.FirstName),
                 new Claim("lastName", user.LastName),
-                new Claim("UserId", user.Id.ToString())
+                new Claim("UserId", user.Id.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, userIdInt.ToString())
+                //new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             });
             foreach (var role in roles)
             {

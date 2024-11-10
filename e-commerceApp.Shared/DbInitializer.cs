@@ -1,95 +1,130 @@
-﻿using e_commerceApp.Shared.Models;
+﻿using e_commerceApp.Shared.Enum;
+using e_commerceApp.Shared.Models;
+using e_commerceApp.Shared.Models.Auth;
 using Microsoft.EntityFrameworkCore;
 
 namespace e_commerceApp.Shared
 {
     public static class DbInitializer
     {
+
+
         public static void GenerateSeed(this ModelBuilder modelBuilder)
         {
-            var employees = new[]
-            {
-                new Employee { Id = 1 , FullName ="MHSN27 MHSN", Department ="Sales", DateOfBirth = new DateTime(1974, 6, 10), Age = 49, PhoneNumber = "+1 1774867925" },
-                new Employee { Id = 2 , FullName ="Sohel Shaikh", Department ="Product Management", DateOfBirth = new DateTime(1979, 2, 2), Age = 44, PhoneNumber = "+1 1280221170" },
-                new Employee { Id = 3 , FullName ="Mark Johnnah", Department ="Public Relations (PR)", DateOfBirth = new DateTime(1980, 1, 22), Age = 43, PhoneNumber = "+1 6391420937" },
-                new Employee { Id = 4 , FullName ="JB _", Department ="Quality Assurance (QA)", DateOfBirth = new DateTime(1968, 8, 19), Age = 55, PhoneNumber = "+1 1634119861" },
-                new Employee { Id = 5 , FullName ="hugo sanchez", Department ="Logistics", DateOfBirth = new DateTime(1953, 6, 10), Age = 70, PhoneNumber = "+1 7644917715" },
-                new Employee { Id = 6 , FullName ="Zabi Rahmani", Department ="Administration", DateOfBirth = new DateTime(1953, 9, 12), Age = 70, PhoneNumber = "+1 5082755411" },
-                new Employee { Id = 7 , FullName ="edimar lopes", Department ="Training and Development", DateOfBirth = new DateTime(1963, 11, 21), Age = 60, PhoneNumber = "+1 5745426751" },
-                new Employee { Id = 8 , FullName ="Arie melans", Department ="Research and Development (R&D)", DateOfBirth = new DateTime(1980, 12, 7), Age = 43, PhoneNumber = "+1 5367480161" },
-                new Employee { Id = 9 , FullName ="Ziya Çetinkaya", Department ="Product Management", DateOfBirth = new DateTime(1970, 8, 6), Age = 53, PhoneNumber = "+1 2379992102" },
-                new Employee { Id = 10 , FullName ="Thiago Paiva Medeiros", Department ="Public Relations (PR)", DateOfBirth = new DateTime(2005, 7, 11), Age = 18, PhoneNumber = "+1 2495860935" },
-                new Employee { Id = 11 , FullName ="Thanh Nguyen", Department ="Facilities Management", DateOfBirth = new DateTime(1967, 2, 25), Age = 56, PhoneNumber = "+1 3911316611" },
-                new Employee { Id = 12 , FullName ="Rahul Salokhe", Department ="Sales", DateOfBirth = new DateTime(1984, 5, 23), Age = 39, PhoneNumber = "+1 5182461859" },
-                new Employee { Id = 13 , FullName ="Jing Tarng Loke", Department ="Operations", DateOfBirth = new DateTime(2000, 7, 13), Age = 23, PhoneNumber = "+1 2635917946" },
-                new Employee { Id = 14 , FullName ="met it", Department ="Human Resources (HR)", DateOfBirth = new DateTime(1987, 10, 19), Age = 36, PhoneNumber = "+1 5049298944" },
-                new Employee { Id = 15 , FullName ="Md.Ariful Islam", Department ="Research and Development (R&D)", DateOfBirth = new DateTime(1973, 11, 29), Age = 50, PhoneNumber = "+1 9252292089" },
-                new Employee { Id = 16 , FullName ="Mo Canada", Department ="Legal", DateOfBirth = new DateTime(1976, 7, 12), Age = 47, PhoneNumber = "+1 1824118974" },
-                new Employee { Id = 17 , FullName ="Altanzurkh T", Department ="Administration", DateOfBirth = new DateTime(1997, 5, 12), Age = 26, PhoneNumber = "+1 6395646874" },
-                new Employee { Id = 18 , FullName ="Mustafa YILDIZ", Department ="Public Relations (PR)", DateOfBirth = new DateTime(1951, 12, 3), Age = 72, PhoneNumber = "+1 1375269492" },
-                new Employee { Id = 19 , FullName ="Arief Fauzi", Department ="Quality Assurance (QA)", DateOfBirth = new DateTime(1959, 3, 13), Age = 64, PhoneNumber = "+1 3458476129" },
-                new Employee { Id = 20 , FullName ="salvador castillo", Department ="Engineering", DateOfBirth = new DateTime(1951, 7, 21), Age = 72, PhoneNumber = "+1 4486306495" },
-                new Employee { Id = 21 , FullName ="Luis TC", Department ="Training and Development", DateOfBirth = new DateTime(1961, 9, 30), Age = 62, PhoneNumber = "+1 1280221170" },
-                new Employee { Id = 22 , FullName ="Adeel Baig", Department ="Finance", DateOfBirth = new DateTime(1991, 1, 14), Age = 32, PhoneNumber = "+1 6391420937" },
-                new Employee { Id = 23 , FullName ="Novrita Inkac", Department ="Information Technology (IT)", DateOfBirth = new DateTime(1971, 12, 5), Age = 52, PhoneNumber = "+1 1634119861" },
-                new Employee { Id = 24 , FullName ="Felipe Rodríguez", Department ="Data Analytics", DateOfBirth = new DateTime(1966, 4, 10), Age = 57, PhoneNumber = "+1 7644917715" },
-                new Employee { Id = 25 , FullName ="Fabian Cebreros", Department ="Legal", DateOfBirth = new DateTime(1993, 8, 5), Age = 30, PhoneNumber = "+1 5082755411" },
-                new Employee { Id = 26 , FullName ="Alan Michas", Department ="Customer Support", DateOfBirth = new DateTime(1970, 11, 13), Age = 53, PhoneNumber = "+1 5745426751" },
-                new Employee { Id = 27 , FullName ="Lucky D.Bog", Department ="Administration", DateOfBirth = new DateTime(1957, 4, 9), Age = 66, PhoneNumber = "+1 5367480161" },
-                new Employee { Id = 28 , FullName ="Anunu", Department ="Research and Development (R&D)", DateOfBirth = new DateTime(1968, 9, 22), Age = 55, PhoneNumber = "+1 2379992102" },
-                new Employee { Id = 29 , FullName ="KRAK 08", Department ="Product Management", DateOfBirth = new DateTime(1997, 6, 20), Age = 26, PhoneNumber = "+1 2495860935" },
-                new Employee { Id = 30 , FullName ="Boonsit Chanpoempoonpol", Department ="Customer Support", DateOfBirth = new DateTime(1976, 3, 28), Age = 47, PhoneNumber = "+1 3911316611" },
-                new Employee { Id = 31 , FullName ="Danilo Romao", Department ="Business Development", DateOfBirth = new DateTime(1979, 3, 17), Age = 44, PhoneNumber = "+1 5182461859" },
-                new Employee { Id = 32 , FullName ="User 4571", Department ="Logistics", DateOfBirth = new DateTime(1999, 6, 2), Age = 24, PhoneNumber = "+1 2635917946" },
-                new Employee { Id = 33 , FullName ="Yuri Svyrydov", Department ="Information Technology (IT)", DateOfBirth = new DateTime(1976, 6, 5), Age = 47, PhoneNumber = "+1 5049298944" },
-                new Employee { Id = 34 , FullName ="Omar Abdelrahim", Department ="Procurement", DateOfBirth = new DateTime(1986, 11, 6), Age = 37, PhoneNumber = "+1 9252292089" },
-                new Employee { Id = 35 , FullName ="ADIAN Jan", Department ="Quality Assurance (QA)", DateOfBirth = new DateTime(1993, 7, 10), Age = 30, PhoneNumber = "+1 1824118974" },
-                new Employee { Id = 36 , FullName ="Thiago Valim", Department ="Finance", DateOfBirth = new DateTime(2003, 5, 28), Age = 20, PhoneNumber = "+1 6395646874" },
-                new Employee { Id = 37 , FullName ="ศุภชัย สมพานิช", Department ="Facilities Management", DateOfBirth = new DateTime(1980, 4, 15), Age = 43, PhoneNumber = "+1 1375269492" },
-                new Employee { Id = 38 , FullName ="ArTWorK211", Department ="Customer Support", DateOfBirth = new DateTime(1975, 2, 21), Age = 48, PhoneNumber = "+1 3458476129" },
-                new Employee { Id = 39 , FullName ="Johny Angsana", Department ="Information Technology (IT)", DateOfBirth = new DateTime(1954, 9, 27), Age = 69, PhoneNumber = "+1 4486306495" },
-                new Employee { Id = 40 , FullName ="kommineni narendra", Department ="Administration", DateOfBirth = new DateTime(1957, 9, 9), Age = 66, PhoneNumber = "+1 1774867925" },
-                new Employee { Id = 41 , FullName ="Felipe Ramos", Department ="Procurement", DateOfBirth = new DateTime(1971, 3, 14), Age = 52, PhoneNumber = "+1 1280221170" },
-                new Employee { Id = 42 , FullName ="Maroine Chérif", Department ="Operations", DateOfBirth = new DateTime(1998, 2, 3), Age = 25, PhoneNumber = "+1 6391420937" },
-                new Employee { Id = 43 , FullName ="Sana Ullah", Department ="Engineering", DateOfBirth = new DateTime(1986, 10, 28), Age = 37, PhoneNumber = "+1 1634119861" },
-                new Employee { Id = 44 , FullName ="michel akebo", Department ="Public Relations (PR)", DateOfBirth = new DateTime(1973, 4, 4), Age = 50, PhoneNumber = "+1 7644917715" },
-                new Employee { Id = 45 , FullName ="عمر العمودي Omar Al-Amoudi", Department ="Logistics", DateOfBirth = new DateTime(1981, 2, 25), Age = 42, PhoneNumber = "+1 5082755411" },
-                new Employee { Id = 46 , FullName ="Louay Abdel Maeen", Department ="Business Development", DateOfBirth = new DateTime(2003, 12, 24), Age = 20, PhoneNumber = "+1 5745426751" },
-                new Employee { Id = 47 , FullName ="Black-Gold Sarnaut", Department ="Marketing", DateOfBirth = new DateTime(1967, 9, 9), Age = 56, PhoneNumber = "+1 5367480161" },
-                new Employee { Id = 48 , FullName ="gueye abdoulaye", Department ="Finance", DateOfBirth = new DateTime(1968, 3, 19), Age = 55, PhoneNumber = "+1 2379992102" },
-                new Employee { Id = 49 , FullName ="Cristian Ferreira", Department ="Engineering", DateOfBirth = new DateTime(1989, 1, 24), Age = 34, PhoneNumber = "+1 2495860935" },
-                new Employee { Id = 50 , FullName ="Amir Osama", Department ="Finance", DateOfBirth = new DateTime(1972, 5, 2), Age = 51, PhoneNumber = "+1 3911316611" },
-                new Employee { Id = 51 , FullName ="Mihai Moisei", Department ="Human Resources (HR)", DateOfBirth = new DateTime(1965, 5, 29), Age = 58, PhoneNumber = "+1 5182461859" },
-                new Employee { Id = 52 , FullName ="AKHOM ALY", Department ="Procurement", DateOfBirth = new DateTime(2005, 3, 27), Age = 18, PhoneNumber = "+1 2635917946" },
-                new Employee { Id = 53 , FullName ="Banpote Jaruboon", Department ="Customer Support", DateOfBirth = new DateTime(1971, 10, 26), Age = 52, PhoneNumber = "+1 5049298944" },
-                new Employee { Id = 54 , FullName ="Abdul Razak Abdulai", Department ="Sales", DateOfBirth = new DateTime(1962, 3, 24), Age = 61, PhoneNumber = "+1 9252292089" },
-                new Employee { Id = 55 , FullName ="ELy moussa", Department ="Product Management", DateOfBirth = new DateTime(2001, 8, 17), Age = 22, PhoneNumber = "+1 1824118974" },
-                new Employee { Id = 56 , FullName ="peter tharwat", Department ="Facilities Management", DateOfBirth = new DateTime(1983, 7, 9), Age = 40, PhoneNumber = "+1 6395646874" },
-                new Employee { Id = 57 , FullName ="william programer (CLASH OF CLAN)", Department ="Finance", DateOfBirth = new DateTime(1985, 10, 29), Age = 38, PhoneNumber = "+1 1375269492" },
-                new Employee { Id = 58 , FullName ="Luis Correa", Department ="Sales", DateOfBirth = new DateTime(1969, 1, 24), Age = 54, PhoneNumber = "+1 3458476129" },
-                new Employee { Id = 59 , FullName ="Michael Chizoba", Department ="Product Management", DateOfBirth = new DateTime(1965, 9, 17), Age = 58, PhoneNumber = "+1 4486306495" },
-                new Employee { Id = 60 , FullName ="Abdul-Rouf Ammar", Department ="Quality Assurance (QA)", DateOfBirth = new DateTime(2005, 2, 22), Age = 18, PhoneNumber = "+1 1280221170" },
-                new Employee { Id = 61 , FullName ="Norbert Saint Georges", Department ="Marketing", DateOfBirth = new DateTime(2000, 7, 12), Age = 23, PhoneNumber = "+1 6391420937" },
-                new Employee { Id = 62 , FullName ="trieuvnh", Department ="Research and Development (R&D)", DateOfBirth = new DateTime(2004, 12, 17), Age = 19, PhoneNumber = "+1 1634119861" },
-                new Employee { Id = 63 , FullName ="Amr Moh", Department ="Procurement", DateOfBirth = new DateTime(1963, 9, 2), Age = 60, PhoneNumber = "+1 7644917715" },
-                new Employee { Id = 64 , FullName ="Ton", Department ="Information Technology (IT)", DateOfBirth = new DateTime(2003, 4, 12), Age = 20, PhoneNumber = "+1 5082755411" },
-                new Employee { Id = 65 , FullName ="Prathamesh Karande", Department ="Quality Assurance (QA)", DateOfBirth = new DateTime(1957, 12, 23), Age = 66, PhoneNumber = "+1 5745426751" },
-                new Employee { Id = 66 , FullName ="MarianoT3", Department ="Human Resources (HR)", DateOfBirth = new DateTime(1950, 12, 26), Age = 73, PhoneNumber = "+1 5367480161" },
-                new Employee { Id = 67 , FullName ="Rekzon Aborde", Department ="Human Resources (HR)", DateOfBirth = new DateTime(1989, 1, 27), Age = 34, PhoneNumber = "+1 2379992102" },
-                new Employee { Id = 68 , FullName ="prottoy roy", Department ="Information Technology (IT)", DateOfBirth = new DateTime(1980, 12, 14), Age = 43, PhoneNumber = "+1 2495860935" },
-                new Employee { Id = 69 , FullName ="sahli SAHBI", Department ="Product Management", DateOfBirth = new DateTime(2001, 5, 22), Age = 22, PhoneNumber = "+1 3911316611" },
-                new Employee { Id = 70 , FullName ="Onur Hos", Department ="Administration", DateOfBirth = new DateTime(1977, 7, 7), Age = 46, PhoneNumber = "+1 5182461859" },
-                new Employee { Id = 71 , FullName ="Armando Villagomez", Department ="Data Analytics", DateOfBirth = new DateTime(1978, 7, 4), Age = 45, PhoneNumber = "+1 2635917946" },
-                new Employee { Id = 72 , FullName ="Jesus Alberto Roque Ortiz", Department ="Facilities Management", DateOfBirth = new DateTime(1988, 8, 9), Age = 35, PhoneNumber = "+1 5049298944" },
-                new Employee { Id = 73 , FullName ="Md Shahin Aktar", Department ="Facilities Management", DateOfBirth = new DateTime(1964, 5, 19), Age = 59, PhoneNumber = "+1 9252292089" },
-                new Employee { Id = 74 , FullName ="Антон Метелёв", Department ="Customer Support", DateOfBirth = new DateTime(1958, 1, 24), Age = 65, PhoneNumber = "+1 1824118974" },
-            };
+            modelBuilder.Entity<User>().HasData(
+                new User { Id = 1, FirstName = "John", LastName = "Doe", Email = "john.doe@example.com", UserName = "john.doe@example.com", PhoneNumber = "123456-7890", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
+                new User { Id = 2, FirstName = "Jane", LastName = "Smith", Email = "jane.smith@example.com", UserName = "jane.smith@example.com", PhoneNumber = "9876543210", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
+                new User { Id = 3, FirstName = "Ike", LastName = "Sunny", Email = "ike.sunny@example.com", UserName = "ike.sunny@example.com", PhoneNumber = "4567891234", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
+                new User { Id = 4, FirstName = "Adam", LastName = "Jane", Email = "adam.jane@example.com", UserName = "adam.jane@example.com", PhoneNumber = "3216549870", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
+                new User { Id = 5, FirstName = "Ronald", LastName = "Smith", Email = "ronald.smith@example.com", UserName = "ronald.smith@example.com", PhoneNumber = "3216549870", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
+                new User { Id = 6, FirstName = "Gate", LastName = "Paulo", Email = "gate.paulo@example.com", UserName = "gate.paulo@example.com", PhoneNumber = "3216549870", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
+                new User { Id = 7, FirstName = "Lurge", LastName = "Luck", Email = "lurge.luck@example.com", UserName = "lurge.luck@example.com", PhoneNumber = "3216549870", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
+                new User { Id = 8, FirstName = "Bana", LastName = "Good", Email = "bana.good@example.com", UserName = "bana.good@example.com", PhoneNumber = "3216549870", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
+                new User { Id = 9, FirstName = "Matt", LastName = "Paul", Email = "matt.paul@example.com", UserName = "matt.paul@example.com", PhoneNumber = "3216549870", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
+                new User { Id = 10, FirstName = "John", LastName = "Matt", Email = "john.matt@example.com", UserName = "john.matt@example.com", PhoneNumber = "3216549870", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
+                new User { Id = 11, FirstName = "Joan", LastName = "Mark", Email = "joan.mark@example.com", UserName = "joan.mark@example.com", PhoneNumber = "3216549870", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow }
+            );
 
-            // Add the tickets to the model
-            foreach (var employee in employees)
-            {
-                modelBuilder.Entity<Employee>().HasData(employee);
-            }
+                    modelBuilder.Entity<Category>().HasData(
+                    new Category { Id = 1, Name = "Phone" },
+                    new Category { Id = 2, Name = "Laptop" },
+                    new Category { Id = 3, Name = "Charger" },
+                    new Category { Id = 4, Name = "Earpiece" },
+                    new Category { Id = 5, Name = "Tablet" },  
+                    new Category { Id = 6, Name = "Headphones" },  
+                    new Category { Id = 7, Name = "Smartwatch" },  
+                    new Category { Id = 8, Name = "Accessories" },  
+                    new Category { Id = 9, Name = "Gaming" },  
+                    new Category { Id = 10, Name = "Fashion" },  
+                    new Category { Id = 11, Name = "Home Appliances" }  
+                );
+         
+
+            modelBuilder.Entity<Product>().HasData(
+                new Product { Id = 1, Title = "Product 1", Description = "Description of Product 1", Price = 170000, StockQuantity = 100, CartegoryId = 1, CreatedDate = DateTime.UtcNow, UpdatedDate = DateTime.UtcNow, ProductStatus = ProductStatus.Availble, ImageUrl = "https://example.com/images/product1.jpg" },
+                new Product { Id = 2, Title = "Product 2", Description = "Description of Product 2", Price = 295000, StockQuantity = 50, CartegoryId = 2, CreatedDate = DateTime.UtcNow, UpdatedDate = DateTime.UtcNow, ProductStatus = ProductStatus.Availble, ImageUrl = "https://example.com/images/product2.jpg" },
+                new Product { Id = 3, Title = "Product 3", Description = "Description of Product 3", Price = 49500, StockQuantity = 40, CartegoryId = 3, CreatedDate = DateTime.UtcNow, UpdatedDate = DateTime.UtcNow, ProductStatus = ProductStatus.Discontinued, ImageUrl = "https://example.com/images/product3.jpg" },
+                new Product { Id = 4, Title = "Product 4", Description = "Description of Product 4", Price = 50000, StockQuantity = 500, CartegoryId = 4, CreatedDate = DateTime.UtcNow, UpdatedDate = DateTime.UtcNow, ProductStatus = ProductStatus.OutofStock, ImageUrl = "https://example.com/images/product4.jpg" },
+                new Product { Id = 5, Title = "Product 5", Description = "Description of Product 5", Price = 900000, StockQuantity = 700, CartegoryId = 5, CreatedDate = DateTime.UtcNow, UpdatedDate = DateTime.UtcNow, ProductStatus = ProductStatus.OutofStock, ImageUrl = "https://example.com/images/product5.jpg" },
+                new Product { Id = 6, Title = "Product 6", Description = "Description of Product 6", Price = 856000, StockQuantity = 900, CartegoryId = 6, CreatedDate = DateTime.UtcNow, UpdatedDate = DateTime.UtcNow, ProductStatus = ProductStatus.OutofStock, ImageUrl = "https://example.com/images/product6.jpg" },
+                new Product { Id = 7, Title = "Product 7", Description = "Description of Product 7", Price = 7000m, StockQuantity = 80, CartegoryId = 7, CreatedDate = DateTime.UtcNow, UpdatedDate = DateTime.UtcNow, ProductStatus = ProductStatus.OutofStock, ImageUrl = "https://example.com/images/product7.jpg" },
+                new Product { Id = 8, Title = "Product 8", Description = "Description of Product 8", Price = 25000, StockQuantity = 800, CartegoryId = 8, CreatedDate = DateTime.UtcNow, UpdatedDate = DateTime.UtcNow, ProductStatus = ProductStatus.OutofStock, ImageUrl = "https://example.com/images/product8.jpg" },
+                new Product { Id = 9, Title = "Product 9", Description = "Description of Product 9", Price = 780000, StockQuantity = 700, CartegoryId = 9, CreatedDate = DateTime.UtcNow, UpdatedDate = DateTime.UtcNow, ProductStatus = ProductStatus.OutofStock, ImageUrl = "https://example.com/images/product9.jpg" },
+                new Product { Id = 10, Title = "Product 10", Description = "Description of Product 10", Price = 56000, StockQuantity = 700, CartegoryId = 10, CreatedDate = DateTime.UtcNow, UpdatedDate = DateTime.UtcNow, ProductStatus = ProductStatus.OutofStock, ImageUrl = "https://example.com/images/product10.jpg" },
+                new Product { Id = 11, Title = "Product 11", Description = "Description of Product 11", Price = 45000, StockQuantity = 600, CartegoryId = 11, CreatedDate = DateTime.UtcNow, UpdatedDate = DateTime.UtcNow, ProductStatus = ProductStatus.OutofStock, ImageUrl = "https://example.com/images/product11.jpg" }
+            );
+
+            modelBuilder.Entity<OrderHeader>().HasData(
+                new OrderHeader { Id = 1, UserId = 1, OrderDate = DateTime.UtcNow.AddDays(-10), ShippingDate = DateTime.UtcNow.AddDays(-5), TotalPrice = 9999, OrderStatus = "Shipped", PaymentStatus = "Paid", PhoneNumber = "1234567890", StreetAddress = "123 Main St", City = "City A", State = "Agege", PostalCode = "12345", Name = "John Doe" },
+                new OrderHeader { Id = 2, UserId = 2, OrderDate = DateTime.UtcNow.AddDays(-8), ShippingDate = DateTime.UtcNow.AddDays(-4), TotalPrice = 19999, OrderStatus = "Delivered", PaymentStatus = "UnPaid", PhoneNumber = "98789943210", StreetAddress = "86 Oak St", City = "City B", State = "Ajah", PostalCode = "67890", Name = "Jane Sunny" },
+                new OrderHeader { Id = 3, UserId = 3, OrderDate = DateTime.UtcNow.AddDays(-9), ShippingDate = DateTime.UtcNow.AddDays(-9), TotalPrice = 70000, OrderStatus = "Confirmed", PaymentStatus = "Paid", PhoneNumber = "9867843210", StreetAddress = "45 Oak St", City = "City C", State = " Makurdi", PostalCode = "77898", Name = "James Wis" },
+                new OrderHeader { Id = 4, UserId = 4, OrderDate = DateTime.UtcNow.AddDays(-6), ShippingDate = DateTime.UtcNow.AddDays(-4), TotalPrice = 60000, OrderStatus = "Delivered", PaymentStatus = "Refunded", PhoneNumber = "9876543210", StreetAddress = "956 Oak St", City = "City D", State = "State A", PostalCode = "78754", Name = "Joan Mark" },
+                new OrderHeader { Id = 5, UserId = 5, OrderDate = DateTime.UtcNow.AddDays(-1), ShippingDate = DateTime.UtcNow.AddDays(-8), TotalPrice = 87000, OrderStatus = "Confirmed", PaymentStatus = "Paid", PhoneNumber = "9876887210", StreetAddress = "496 Oak St", City = "City E", State = "State Polaris", PostalCode = "99654", Name = "John Matt" },
+                new OrderHeader { Id = 6, UserId = 6, OrderDate = DateTime.UtcNow.AddDays(-12), ShippingDate = DateTime.UtcNow.AddDays(-4), TotalPrice = 76000, OrderStatus = "Pending", PaymentStatus = "Refunded", PhoneNumber = "4878743210", StreetAddress = "76 Oak St", City = "City F", State = "State New", PostalCode = "09908", Name = "Matt Paul" },
+                new OrderHeader { Id = 7, UserId = 7, OrderDate = DateTime.UtcNow.AddDays(-8), ShippingDate = DateTime.UtcNow.AddDays(-7), TotalPrice = 30000, OrderStatus = "Cancelled", PaymentStatus = "Paid", PhoneNumber = "9898743210", StreetAddress = "6 Oak St", City = "City G", State = "State Paris", PostalCode = "88978", Name = "Bana Good" },
+                new OrderHeader { Id = 8, UserId = 8, OrderDate = DateTime.UtcNow.AddDays(-9), ShippingDate = DateTime.UtcNow.AddDays(-5), TotalPrice = 90000, OrderStatus = "Confirmed", PaymentStatus = "Refunded", PhoneNumber = "9874543210", StreetAddress = "86 Oak St", City = "City H", State = "State", PostalCode = "00986", Name = "Lurge Luck" },
+                new OrderHeader { Id = 9, UserId = 9, OrderDate = DateTime.UtcNow.AddDays(-14), ShippingDate = DateTime.UtcNow.AddDays(-14), TotalPrice = 98000, OrderStatus = "Cancelled", PaymentStatus = "UnPaid", PhoneNumber = "9878453210", StreetAddress = "26 Oak St", City = "City I", State = "State Mark", PostalCode = "00987", Name = "Gate Paulo" },
+                new OrderHeader { Id = 10, UserId = 10, OrderDate = DateTime.UtcNow.AddDays(-18), ShippingDate = DateTime.UtcNow.AddDays(-23), TotalPrice = 67000, OrderStatus = "Pending", PaymentStatus = "Refunded", PhoneNumber = "6526543210", StreetAddress = "956 Oak St", City = "City J", State = "State Town", PostalCode = "77654", Name = "Ronald Smith" },
+                new OrderHeader { Id = 11, UserId = 11, OrderDate = DateTime.UtcNow.AddDays(-7), ShippingDate = DateTime.UtcNow.AddDays(-3), TotalPrice = 450000, OrderStatus = "Shipped", PaymentStatus = "Paid", PhoneNumber = "9876920210", StreetAddress = "16 Oak St", City = "City K", State = "State V", PostalCode = "88765", Name = "Jane Adam" }
+            );
+
+            modelBuilder.Entity<OrderDetail>().HasData(
+                new OrderDetail { Id = 1, OrderHeaderId = 1, ProductId = 1, Count = 2, Price = 1999, UserId = 1 },
+                new OrderDetail { Id = 2, OrderHeaderId = 2, ProductId = 2, Count = 1, Price = 2999, UserId = 2 },
+                new OrderDetail { Id = 3, OrderHeaderId = 3, ProductId = 3, Count = 3, Price = 4999, UserId = 3 },
+                new OrderDetail { Id = 4, OrderHeaderId = 4, ProductId = 4, Count = 5, Price = 4500, UserId = 4 },
+                new OrderDetail { Id = 5, OrderHeaderId = 5, ProductId = 5, Count = 6, Price = 55000, UserId = 5 },
+                new OrderDetail { Id = 6, OrderHeaderId = 6, ProductId = 6, Count = 9, Price = 6700, UserId = 6 },
+                new OrderDetail { Id = 7, OrderHeaderId = 7, ProductId = 7, Count = 3, Price = 8900, UserId = 7 },
+                new OrderDetail { Id = 8, OrderHeaderId = 8, ProductId = 8, Count = 5, Price = 45000, UserId = 8 },
+                new OrderDetail { Id = 9, OrderHeaderId = 9, ProductId = 9, Count = 8, Price = 99000, UserId = 9 },
+                new OrderDetail { Id = 10, OrderHeaderId = 10, ProductId = 10, Count = 7, Price = 8900, UserId = 10 },
+                new OrderDetail { Id = 11, OrderHeaderId = 11, ProductId = 11, Count = 6, Price = 235000, UserId = 11 }
+            );
+
+            modelBuilder.Entity<ShoppingCartItem>().HasData(
+                new ShoppingCartItem { Id = 1, Amount = 2, ShoppingCartId = 1, ProductId = 1 },
+                new ShoppingCartItem { Id = 2, Amount = 1, ShoppingCartId = 2, ProductId = 2 },
+                new ShoppingCartItem { Id = 3, Amount = 4, ShoppingCartId = 3, ProductId = 3 },
+                new ShoppingCartItem { Id = 4, Amount = 5, ShoppingCartId = 4, ProductId = 4 },
+                new ShoppingCartItem { Id = 5, Amount = 3, ShoppingCartId = 5, ProductId = 5 },
+                new ShoppingCartItem { Id = 6, Amount = 5, ShoppingCartId = 6, ProductId = 6 },
+                new ShoppingCartItem { Id = 7, Amount = 6, ShoppingCartId = 7, ProductId = 7 },
+                new ShoppingCartItem { Id = 8, Amount = 6, ShoppingCartId = 8, ProductId = 8 },
+                new ShoppingCartItem { Id = 9, Amount = 8, ShoppingCartId = 9, ProductId = 9 },
+                new ShoppingCartItem { Id = 10, Amount = 8, ShoppingCartId = 10, ProductId = 10 },
+                new ShoppingCartItem { Id = 11, Amount = 5, ShoppingCartId = 11, ProductId = 11 }
+            );
+
+            modelBuilder.Entity<Review>().HasData(
+                new Review { Id = 1, ProductId = 1, CustomerId = 1, Rating = 5, Comment = "Excellent product!", CreatedDate = DateTime.UtcNow.AddDays(-10) },
+                new Review { Id = 2, ProductId = 2, CustomerId = 2, Rating = 4, Comment = "Good value for the price.", CreatedDate = DateTime.UtcNow.AddDays(-8) },
+                new Review { Id = 3, ProductId = 3, CustomerId = 3, Rating = 3, Comment = "Satisfactory, but could be improved.", CreatedDate = DateTime.UtcNow.AddDays(-5) },
+                new Review { Id = 4, ProductId = 4, CustomerId = 4, Rating = 1, Comment = "Fairly pleased with the quality.", CreatedDate = DateTime.UtcNow.AddDays(-3) },
+                new Review { Id = 5, ProductId = 5, CustomerId = 5, Rating = 2, Comment = "Fairly pleased with the quality.", CreatedDate = DateTime.UtcNow.AddDays(-2) },
+                new Review { Id = 6, ProductId = 6, CustomerId = 6, Rating = 4, Comment = "pleased with the quality.", CreatedDate = DateTime.UtcNow.AddDays(-5) },
+                new Review { Id = 7, ProductId = 7, CustomerId = 7, Rating = 4, Comment = "pleased with the quality.", CreatedDate = DateTime.UtcNow.AddDays(-13) },
+                new Review { Id = 8, ProductId = 8, CustomerId = 8, Rating = 5, Comment = "Very very pleased with the quality.", CreatedDate = DateTime.UtcNow.AddDays(-12) },
+                new Review { Id = 9, ProductId = 9, CustomerId = 9, Rating = 5, Comment = "Awesome  quality.", CreatedDate = DateTime.UtcNow.AddDays(-4) },
+                new Review { Id = 10, ProductId = 10, CustomerId = 10, Rating = 2, Comment = "Not really a great quality.", CreatedDate = DateTime.UtcNow.AddDays(-23) },
+                new Review { Id = 11, ProductId = 11, CustomerId = 11, Rating = 3, Comment = "Patially pleased with the quality.", CreatedDate = DateTime.UtcNow.AddDays(-4) }
+            );
+            modelBuilder.Entity<Cart>().HasData(
+                new Cart { Id = 1, CustomerId = 1, CreatedDate = DateTime.UtcNow.AddDays(-10) },
+                new Cart { Id = 2, CustomerId = 2, CreatedDate = DateTime.UtcNow.AddDays(-8) },
+                new Cart { Id = 3, CustomerId = 3, CreatedDate = DateTime.UtcNow.AddDays(-5) },
+                new Cart { Id = 4, CustomerId = 4, CreatedDate = DateTime.UtcNow.AddDays(-3) },
+                new Cart { Id = 5, CustomerId = 5, CreatedDate = DateTime.UtcNow.AddDays(-2) },
+                new Cart { Id = 6, CustomerId = 6, CreatedDate = DateTime.UtcNow.AddDays(-5) },
+                new Cart { Id = 7, CustomerId = 7, CreatedDate = DateTime.UtcNow.AddDays(-13) },
+                new Cart { Id = 8, CustomerId = 8, CreatedDate = DateTime.UtcNow.AddDays(-12) },
+                new Cart { Id = 9, CustomerId = 9, CreatedDate = DateTime.UtcNow.AddDays(-4) },
+                new Cart { Id = 10, CustomerId = 10, CreatedDate = DateTime.UtcNow.AddDays(-23) },
+                new Cart { Id = 11, CustomerId = 11, CreatedDate = DateTime.UtcNow.AddDays(-4) }
+            );
+
+
         }
+
     }
 }

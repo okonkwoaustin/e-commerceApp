@@ -7,7 +7,9 @@
   </PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="EFCore.BulkExtensions" Version="8.1.1" />
 		<PackageReference Include="MudBlazor" Version="7.15.0" />
+		<PackageReference Include="Stripe.net" Version="47.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

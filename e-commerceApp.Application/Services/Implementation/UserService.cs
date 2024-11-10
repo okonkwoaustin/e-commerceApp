@@ -72,6 +72,7 @@ namespace e_commerceApp.Application.Services.Implementation
                     UserName = signUpModel.Email,
                     FirstName = signUpModel.FirstName,
                     LastName = signUpModel.LastName,
+                    EmailConfirmed = true
                 };
 
                 // Attempt to create the user
