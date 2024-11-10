@@ -82,9 +82,35 @@ namespace e_commerceApp.Application.Services.Implementation
             {
                 return null;
             }
-            _ecommDbContext.Employees.Update(employee);
+            getEmployee.FullName = employee.FullName ?? getEmployee.FullName;
+            getEmployee.DateOfBirth = employee.DateOfBirth == default ? getEmployee.DateOfBirth : employee.DateOfBirth;
+            getEmployee.PhoneNumber = employee.PhoneNumber ?? getEmployee.PhoneNumber;
+            getEmployee.Age = employee.Age == 0 ? getEmployee.Age : employee.Age;
+            getEmployee.Department = employee.Department ?? getEmployee.Department;
+
+            _ecommDbContext.Employees.Update(getEmployee);
+            await _ecommDbContext.SaveChangesAsync();
             return employee;
         }
-
+        //public async Task<bool> ImportEmployee(List<Employee> employees)
+        //{
+        //    List<Employee> listEmploy = new List<Employee>();
+        //    foreach (Employee employee in employees)
+        //    {
+        //        Employee employ = new Employee
+        //        {
+        //            FullName = employee.FullName,
+        //            DateCreated = DateTime.Now,
+        //            Age = employee.Age,
+        //            DateOfBirth = employee.DateOfBirth,
+        //            Department = employee.Department,
+        //            PhoneNumber = employee.PhoneNumber,
+        //        };
+        //        listEmploy.Add(employee);
+        //    }
+        //    await _ecommDbContext.BulkInsertAsync();
+        //    await _ecommDbContext.SaveChangesAsync();
+        //    return listEmploy.Any();
+        //}
     }
 }

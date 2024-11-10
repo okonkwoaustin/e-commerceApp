@@ -4,9 +4,11 @@
 @using System.Threading
 @using e_commerceApp.Application.Services.Interface
 @using e_commerceApp.Shared.Models
+@using ecommerce.Client.Enums
 @using ecommerce.Client.ViewModels
 @inject HttpClient httpClient
 @inject IDialogService DialogService
+@inject ISnackbar snackbar
 
 
 @rendermode InteractiveServer
@@ -25,7 +27,7 @@
                    StartIcon="@Icons.Material.Filled.PersonAddAlt1"
                    Variant="Variant.Filled"
                    Color="Color.Primary">
-                   Add New Employee
+            Add New Employee
         </MudButton>
         <MudSpacer />
         <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
@@ -39,6 +41,22 @@
         <PropertyColumn Property="x => x.DateCreated" Format="dd MMM yyyy" Title="Date Created" />
         <PropertyColumn Property="x => x.Age" Title="Age " />
         <PropertyColumn Property="x => x.PhoneNumber" Title="Phone Number" />
+        <TemplateColumn CellClass="d-flex justify-end">
+            <CellTemplate>
+                <MudButton Class="me-2" Size="@Size.Small"
+                           Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Edit"
+                           Color="@Color.Warning" OnClick="@(() => this.UpdateEmployee(context))">
+                    Update
+                </MudButton>
+
+                <MudButton Class="me-2" Size="@Size.Small"
+                           Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Remove"
+                           Color="@Color.Error" OnClick="@(() => this.DeleteEmployee(context))">
+                    Delete
+                </MudButton>
+
+            </CellTemplate>
+        </TemplateColumn>
     </Columns>
     <PagerContent>
         <MudDataGridPager T="Employee" />
@@ -130,11 +148,62 @@
     }
     private async Task CreateNewUser()
     {
-        var options = new DialogOptions {MaxWidth = MaxWidth.Large};
-        var dialog = await DialogService.ShowAsync<CreateUpdateEmployee>("Add Employee", options);
+        var options = new DialogOptions { MaxWidth = MaxWidth.Large };
+
+        var parameters = new DialogParameters<CreateUpdateEmployee>
+        {
+            {x => x.Action, UIActionEnum.Insert},
+            {x => x.model, new Employee()}
+        };
+
+        var dialog = await DialogService.ShowAsync<CreateUpdateEmployee>("Add Employee", parameters, options);
 
         var result = await dialog.Result;
         if (result != null)
             await dataGrid.ReloadServerData();
+    }
+    private async Task UpdateEmployee(CellContext<Employee> employee)
+    {
+        var employeeCheck = await httpClient.GetFromJsonAsync<Employee>($"api/Employee/getById/{employee.Item.Id}");
+        if(employeeCheck is null)
+        {
+            snackbar.Add("searchString Something went wrong", Severity.Error);
+            return;
+        }
+
+        var options = new DialogOptions { MaxWidth = MaxWidth.Large };
+
+        var parameters = new DialogParameters<CreateUpdateEmployee>
+        {
+            {x => x.Action, UIActionEnum.Insert},
+            {x => x.model, new Employee()},
+            {x => x._date, employeeCheck.DateOfBirth }
+        };
+
+        var dialog = await DialogService.ShowAsync<CreateUpdateEmployee>("Update Employee", parameters, options);
+
+        var result = await dialog.Result;
+        if (result != null && !result.Canceled)
+            await dataGrid.ReloadServerData();
+    }
+    private async Task DeleteEmployee(CellContext<Employee> employee)
+    {
+        var dialog = await DialogService.ShowAsync<RemoveConfirmation>("Remove: " + employee.Item.FullName);
+        var result = await dialog.Result;
+
+        if(result is not null && !result.Canceled)
+        {
+            var confirmed = (bool)(result.Data ?? false);
+            if (confirmed)
+            {
+                var deleteResult = await httpClient.DeleteAsync($"api/Employee/delete/{employee.Item.Id}");
+                if (deleteResult.IsSuccessStatusCode)
+                {
+                    snackbar.Add("Successfully remove the employee!", Severity.Success);
+                    await dataGrid.ReloadServerData();
+                }
+                snackbar.Add("Fail to remove the employee!", Severity.Error);
+            }
+        }
     }
 }

@@ -32,7 +32,7 @@ namespace e_commerceApp.Api.Controllers
             return Ok(_employeeService.AddEmployee(employee));
         }
 
-        [HttpGet]
+        [HttpGet("getById/{id}")]
         public async Task<IActionResult> Details(int id)
         {
            return Ok(await _employeeService.GetEmployeeByIdAsync(id));
@@ -42,7 +42,7 @@ namespace e_commerceApp.Api.Controllers
         {
                 return Ok(await _employeeService.UpdateEmployee(id, employee));
         }
-        [HttpPost]
+        [HttpDelete("delete/{id}")]
         public IActionResult DeleteEmployee(int id)
         {
             return Ok(_employeeService.DeleteEmployeeByIdAsync(id));
