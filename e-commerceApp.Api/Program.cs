@@ -1,4 +1,5 @@
 using e_commerceApp.Application.Configs.Payment;
+using e_commerceApp.Application.Mappings;
 using e_commerceApp.Application.Services.Implementation;
 using e_commerceApp.Application.Services.Interface;
 using e_commerceApp.Shared.Data;
@@ -58,17 +59,17 @@ services.AddScoped<IUserService, UserService>();
 services.AddScoped<IPaymentService, PaymentService>();
 
 
+services.AddAutoMapper(typeof(AutoMapperProfile));
+
 //Add config for Required email
 services.Configure<IdentityOptions>(
     options => options.SignIn.RequireConfirmedEmail = false);
 
 services.Configure<PayPalSettings>(configuration.GetSection("PayPal"));
 
-services.AddDbContext<EcommDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("Default"),
-    sqlOption => sqlOption.EnableRetryOnFailure(50)
-    ));
+services.AddDbContext<EcommDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("Default")));
 
-services.AddIdentity<User, Role>(opt => {
+services.AddIdentity<User, IdentityRole>(opt => {
     opt.Password.RequireNonAlphanumeric = false;
     opt.Password.RequireDigit = false;
     opt.Password.RequireLowercase = false;

@@ -1,5 +1,10 @@
-﻿using e_commerceApp.Application.Services.Interface;
+﻿using AutoMapper;
+using e_commerceApp.Application.Configs.CustomActionFilter;
+using e_commerceApp.Application.Services.Interface;
+using e_commerceApp.Shared.Models;
 using e_commerceApp.Shared.Models.Auth;
+using e_commerceApp.Shared.Models.Dtos;
+using e_commerceApp.Shared.Models.Email;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -16,42 +21,58 @@ namespace e_commerceApp.Api.Controllers
         private readonly ITokenService _tokenService;
         private readonly UserManager<User> _userManager;
         private readonly IEmailService _emailService;
+        private readonly IMapper _mapper;
 
-        public UserController(IUserService userService, ITokenService tokenService, UserManager<User> userManager, IEmailService emailService)
+        public UserController(IUserService userService, ITokenService tokenService, UserManager<User> userManager, IEmailService emailService, IMapper mapper)
         {
             _userService = userService;
             _tokenService = tokenService;
             _userManager = userManager;
             _emailService = emailService;
+            _mapper = mapper;
         }
 
         [HttpPost("Register")]
         [AllowAnonymous]
         public async Task<IActionResult> CreateUser([FromBody] SignUpModel signUp)
         {
-            if (!ModelState.IsValid)
+            var tokenResponse = await _userService.CreateUser(signUp);
+            if (tokenResponse.IsSuccess)
             {
-                return BadRequest();
+                var confirmation = Url.Action(nameof(ConfirmEmail), "Auth", new { tokenResponse.ResponseRequest.Token, email = signUp.Email }, Request.Scheme);
+                var message = new Message(new string[] { signUp.Email }, "Confirmation Email link", confirmation!);
+                _emailService.SendEmail(message);
+
+                return StatusCode(StatusCodes.Status200OK,
+                    new ResponseRequest
+                    {
+                        Message = tokenResponse.Message,
+                        Status = "Success"
+                    });
             }
-            var result = await _userService.CreateUser(signUp);
-            return result;
+            return StatusCode(StatusCodes.Status400BadRequest,
+                new ResponseRequest
+                {
+                    Message = tokenResponse.Message,
+                    Status = "Error"
+                });
         }
 
         [HttpPost("Login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] SignInModel signIn)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
 
             //check if a user exists with the provided username and password
             var user = await _userService.AuthenticateUser(signIn.Email, signIn.Password);
-            //if user credentials are not authentic return bad request with a message 
             if (user == null)
             {
-                return this.Problem("Email or password is incorrect", statusCode: 400);
+                return StatusCode(StatusCodes.Status400BadRequest,
+                new ResponseRequest
+                {
+                    Message = "Email or password is incorrect",
+                    Status = "Error"
+                });
             }
 
             //get roles
@@ -59,12 +80,15 @@ namespace e_commerceApp.Api.Controllers
 
             //generate a jwt token
             var token = _tokenService.GenerateToken(user, roles);
-
-            //return token in the response
-            return Ok(new { Token = token });
+            var response = new LoginResponse
+            {
+                JwtToken = token,
+            };
+            return Ok(response);
         }
-        [HttpGet]
-        public async Task<ObjectResult> ConfirmEmail(string email, string token)
+
+        [HttpGet("Confirm-email")]
+        public async Task<IActionResult> ConfirmEmail(string email, string token)
         {
             var user = await _userManager.FindByNameAsync(email);
             if (user != null)
@@ -72,45 +96,63 @@ namespace e_commerceApp.Api.Controllers
                 var result = await _userManager.ConfirmEmailAsync(user, token);
                 if (result.Succeeded)
                 {
-                    return new OkObjectResult("Your email has been confirmed successfully.");
+                    return StatusCode(StatusCodes.Status200OK, 
+                        new ResponseRequest
+                    {
+                        Message = "Your email has been confirmed successfully.",
+                        Status = "Success"
+                    });
                 }
             }
-            return new BadRequestObjectResult("Something went wrong your email has not been confirmed please try again");
+            return StatusCode(StatusCodes.Status500InternalServerError,
+                new ResponseRequest
+                {
+                    Message = "This user does not exist",
+                    Status = "Error"
+                });           
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:Guid}")]
         [Authorize]
-        public async Task<IActionResult> GetUserById(int id)
+        public async Task<IActionResult> GetUserById(Guid id)
         {
             var user = await _userService.GetUserById(id);
             if (user == null) return NotFound();
+            var mapresult = _mapper.Map<UserDto>(user);
             return Ok(user);
         }
 
-        [HttpGet("AllUsers")]
+        [HttpGet("GetAllUsers")]
         [Authorize]
-        public async Task<IEnumerable<User>> GetAllUsers()
+        public async Task<IActionResult> GetUsers([FromQuery] int pageNumber = 1, int pageSize = 10)
         {
-            return await _userService.GetAllUsers();
+            var users = await _userService.GetAllUsers(pageNumber, pageSize);
+            var mappedResult = _mapper.Map<PaginatedResult<UserDto>>(users);
+            return Ok(mappedResult);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:Guid}")]
         [Authorize]
-        public async Task<IActionResult> UpdateUser(int id, User updatedUser)
+        public async Task<IActionResult> UpdateUser(Guid id, User updatedUser)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var success = await _userService.UpdateUser(id, updatedUser);
-            if (!success) return NotFound();
-            return Ok("User updated successfully");
+            if (success == null) return NotFound();
+            var mapResult = _mapper.Map<UserDto>(success);
+            return Ok(mapResult);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:Guid}")]
         [Authorize]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteUser(Guid id)
         {
             var success = await _userService.DeleteUser(id);
-            if (!success) return NotFound();
-            return Ok("User Deleted successfully");
+            return StatusCode(StatusCodes.Status200OK,
+                    new ResponseRequest
+                    {
+                        Message = success.Message,
+                        Status = "Success"
+                    });
         }
 
         [Authorize]
