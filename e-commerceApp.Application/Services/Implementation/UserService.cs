@@ -1,5 +1,7 @@
 ﻿using e_commerceApp.Application.Services.Interface;
+using e_commerceApp.Shared.Models;
 using e_commerceApp.Shared.Models.Auth;
+using e_commerceApp.Shared.Models.Dtos;
 using e_commerceApp.Shared.Models.Email;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -18,21 +20,21 @@ namespace e_commerceApp.Application.Services.Implementation
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly RoleManager<Role> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailService _emailService;
         private readonly ILogger<UserService> _logger; 
         private readonly IUrlHelperFactory _urlHelperFactory;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserService(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<Role> roleManager, ILogger<UserService> logger, IEmailService emailService, IUrlHelperFactory urlHelperFactory, IHttpContextAccessor httpContextAccessor)
+        public UserService(UserManager<User> userManager, SignInManager<User> signInManager, ILogger<UserService> logger, IEmailService emailService, IUrlHelperFactory urlHelperFactory, IHttpContextAccessor httpContextAccessor, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;
             _logger = logger;
             _emailService = emailService;
             _urlHelperFactory = urlHelperFactory;
             _httpContextAccessor = httpContextAccessor;
+            _roleManager = roleManager;
         }
         public async Task<User> AuthenticateUser(string email, string password)
         {
@@ -63,33 +65,33 @@ namespace e_commerceApp.Application.Services.Implementation
             return user;
         }
 
-        public async Task<ObjectResult> ConfirmEmail(string email, string token)
-        {
-            var user = await _userManager.FindByNameAsync(email);
-            if (user != null)
-            {
-                var result = await _userManager.ConfirmEmailAsync(user, token);
-                if (result.Succeeded)
-                {
-                    return new OkObjectResult("Your email has been confirmed successfully.");
-                }
-            }
-            return new BadRequestObjectResult("Something went wrong your email has not been confirmed please try again");
-        }
-
-        public async Task<ObjectResult> CreateUser(SignUpModel signUpModel)
+        public async Task<ApiResponse<UserResponse>> CreateUser(SignUpModel signUpModel)
         {
             try
             {
+                var existingUser = await _userManager.FindByEmailAsync(signUpModel.Email);
+                if (existingUser != null)
+                {
+                    return new ApiResponse<UserResponse>
+                    {
+                        Message = "User already exist",
+                        StatusCode = 403,
+                        IsSuccess = false
+                    };
+                }
                 // Check if the 'User' role exists
                 var role = await _roleManager.FindByNameAsync("User");
                 if (role == null)
                 {
-                    _logger.LogError("Role 'User' does not exist.");
-                    return new BadRequestObjectResult("Role 'User' does not exist. Please contact support.");
+                    return new ApiResponse<UserResponse>
+                    {
+                        Message = "Role 'User' does not exist. Please contact support.",
+                        StatusCode = 403,
+                        IsSuccess = false
+                    };
                 }
 
-                var user = new User
+                User user = new User
                 {
                     Email = signUpModel.Email,
                     UserName = signUpModel.Email,
@@ -101,60 +103,83 @@ namespace e_commerceApp.Application.Services.Implementation
                 var creationResult = await _userManager.CreateAsync(user, signUpModel.Password);
                 if (!creationResult.Succeeded)
                 {
-                    var errorDescriptions = string.Join(", ", creationResult.Errors.Select(e => e.Description));
-                    _logger.LogError($"User creation failed: {errorDescriptions}");
-                    return new UnprocessableEntityObjectResult($"User creation failed: {errorDescriptions}");
+                    return new ApiResponse<UserResponse>
+                    {
+                        Message = "User creation failed",
+                        StatusCode = 403,
+                        IsSuccess = false
+                    };
                 }
 
                 // Attempt to assign the 'User' role
                 var roleAssignmentResult = await _userManager.AddToRoleAsync(user, "User");
                 if (!roleAssignmentResult.Succeeded)
                 {
-                    var roleErrorDescriptions = string.Join(", ", roleAssignmentResult.Errors.Select(e => e.Description));
-                    _logger.LogError($"Role assignment failed: {roleErrorDescriptions}");
-                    return new UnprocessableEntityObjectResult($"Role assignment failed: {roleErrorDescriptions}");
+                    return new ApiResponse<UserResponse>
+                    {
+                        Message = "Role assignment failed.",
+                        StatusCode = 403,
+                        IsSuccess = false
+                    };
                 }
-
-                var actionContext = new ActionContext(_httpContextAccessor.HttpContext, new RouteData(), new ActionDescriptor());
-                var urlHelper = _urlHelperFactory.GetUrlHelper(actionContext);
-                var scheme = _httpContextAccessor.HttpContext.Request.Scheme;
-
+                
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                var confirmationUrl = urlHelper.Action(nameof(ConfirmEmail), "User", new { token, email = user.Email }, scheme);
 
-                if (confirmationUrl == null)
+                return new ApiResponse<UserResponse>
                 {
-                    _logger.LogError("Failed to generate confirmation URL.");
-                    return new ObjectResult("Failed to generate confirmation URL.") { StatusCode = 500 };
-                }
-
-                var message = new Message(new string[] { user.Email }, "Confirmation Email link", confirmationUrl!);
-                 _emailService.SendEmail(message);
-                return new OkObjectResult($"User has been created successfully, Please confirm your email.");
+                    Message = $"User created successfully, Please go to your email {user.Email} and verify.",
+                    StatusCode = 201,
+                    IsSuccess = true,
+                    ResponseRequest = new UserResponse
+                    {
+                        Token = token,
+                        User = user
+                    }
+                };
 
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An exception occurred while creating a user.");
-                return new ObjectResult("An unexpected error occurred while creating the user.")
-                {
-                    StatusCode = 500
-                };
+                _logger.LogError($"Error authenticating user: {ex.Message} {ex.StackTrace}");
+                throw;
             }
         }
 
-        public async Task<bool> DeleteUser(int userId)
+        public async Task<ApiResponse<UserResponse>> DeleteUser(Guid userId)
         {
             var user = await GetUserById(userId);
-            if (user == null) return false;
-
+            if (user == null)
+                return new ApiResponse<UserResponse>
+                {
+                    StatusCode = 404,
+                    Message = "User does not exist",
+                    IsSuccess = false
+                };
             var result = await _userManager.DeleteAsync(user);
-            return result.Succeeded;
+            return new ApiResponse<UserResponse>
+            {
+                Message = "User deleted successfully",
+                StatusCode = 200,
+                IsSuccess = result.Succeeded,
+            };
         }
 
-        public async Task<IEnumerable<User>> GetAllUsers()
+        public async Task<PaginatedResult<User>> GetAllUsers(int pageNumber, int pageSize)
         {
-            return await _userManager.Users.ToListAsync();
+            var skipResult = (pageNumber - 1) * pageSize;
+            var totalUsers = await _userManager.Users.CountAsync();
+            var users = await _userManager.Users
+                                          .Skip(skipResult)
+                                          .Take(pageSize)
+                                          .ToListAsync();
+
+            return new PaginatedResult<User>
+            {
+                Items = users,
+                TotalCount = totalUsers,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
         }
 
         public async Task<List<string>> GetRolesByUser(User user)
@@ -163,7 +188,7 @@ namespace e_commerceApp.Application.Services.Implementation
             return role.ToList();
         }
 
-        public async Task<User> GetUserById(int userId)
+        public async Task<User?> GetUserById(Guid userId)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());
             return user;
@@ -184,20 +209,40 @@ namespace e_commerceApp.Application.Services.Implementation
             }
         }
 
-        public async Task<bool> UpdateUser(int userId, User updatedUser)
+        public async Task<User?> UpdateUser(Guid userId, User updatedUser)
         {
-            var user = await GetUserById(userId);
-            if (user == null) return false;
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user == null)
+                return null;
 
             user.FirstName = updatedUser.FirstName;
             user.LastName = updatedUser.LastName;
-            user.Address = updatedUser.Address;
-            user.PhoneNumber = updatedUser.PhoneNumber;
-            user.IsActive = updatedUser.IsActive;
-            user.UpdatedAt = DateTime.UtcNow;
+            user.Email = updatedUser.Email;
 
-            var result = await _userManager.UpdateAsync(user);
-            return result.Succeeded;
+            await _userManager.UpdateAsync(user);
+            return user;
+        }
+
+        public UserDto MapToDto(User user)
+        {
+            return new UserDto
+            {
+                Id = user.Id,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName
+            };
+        }
+
+        public User MapToUser(SignUpModel signUpModel)
+        {
+            return new User
+            {
+                UserName = signUpModel.Email,
+                Email = signUpModel.Email,
+                FirstName = signUpModel.FirstName,
+                LastName = signUpModel.LastName
+            };
         }
     }
 }

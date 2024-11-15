@@ -7,6 +7,7 @@ namespace e_commerceApp.Shared.Models.Auth
         [Required, EmailAddress]
         public string Email { get; set; }
         [Required]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
         [Required]
         [Compare("ConfirmPassword")]
