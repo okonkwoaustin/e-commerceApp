@@ -4,9 +4,9 @@ namespace e_commerceApp.Shared.Models
     public class PaymentModel
     { 
             [Key]
-            public Guid PaymentId { get; set; } = Guid.NewGuid();
+            public string PaymentId { get; set; } = Guid.NewGuid().ToString();
 
-            [Required]
+        [Required]
             public string UserId { get; set; } 
 
             [Required]
@@ -16,19 +16,19 @@ namespace e_commerceApp.Shared.Models
             public string Currency { get; set; } = "NGN";
 
             [Required]
-            public string PaymentProvider { get; set; } = "PayPal";  // Could be "Stripe", "PayPal", etc.
+            public string PaymentProvider { get; set; } = "Stripe";  
 
-            public string ProviderPaymentId { get; set; }  // PayPal OrderId or other provider's payment ID
+            public string ProviderPaymentId { get; set; }
 
             [Required]
             public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-            public DateTime? CompletedAt { get; set; }  // Filled only when payment is successful
+            public DateTime? CompletedAt { get; set; }  
 
             [Required]
             public PaymentStatus Status { get; set; } = PaymentStatus.Pending;
 
-            public string? FailureReason { get; set; }  // Optional field to capture any failure reason
+            public string? FailureReason { get; set; }  
         public enum PaymentStatus
         {
             Pending,

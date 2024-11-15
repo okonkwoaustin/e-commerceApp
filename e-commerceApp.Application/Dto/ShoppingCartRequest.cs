@@ -5,7 +5,7 @@ namespace e_commerceApp.Application.Dto
 {
     public class ShoppingCartRequest
     {
-        public IShoppingCartService ShoppingCartService { get; set; }
+        public ShoppingCartService ShoppingCartService { get; set; }
         public decimal ShoppingCartTotal { get; set; }
     }
 }

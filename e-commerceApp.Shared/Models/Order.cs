@@ -8,7 +8,7 @@ namespace e_commerceApp.Shared.Models
 {
     public class Order
     {
-        public int Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public string CustomerId { get; set; }
         public string Email { get; set; }
         public DateTime OrderDate { get; set; }
@@ -26,15 +26,15 @@ namespace e_commerceApp.Shared.Models
 
     public class OrderDetail
     {
-        public int Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         [Required]
-        public int OrderHeaderId { get; set; }
+        public string OrderHeaderId { get; set; } 
         [ForeignKey("OrderHeaderId")]
         [ValidateNever]
         public OrderHeader OrderHeader { get; set; }
 
         [Required]
-        public int ProductId { get; set; }
+        public string ProductId { get; set; }
         [ForeignKey("ProductId")]
         [ValidateNever]
         public Product Product { get; set; }
@@ -43,7 +43,7 @@ namespace e_commerceApp.Shared.Models
         [ForeignKey("UserId")]
         [ValidateNever]
         public User User { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; } 
     }
 
 }

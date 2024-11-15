@@ -7,8 +7,8 @@ namespace e_commerceApp.Shared.Models
 {
     public class OrderHeader
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string UserId { get; set; } 
         [ForeignKey("UserId")]
         [ValidateNever]
         public User User { get; set; }
@@ -24,7 +24,7 @@ namespace e_commerceApp.Shared.Models
         public DateTime PaymentDueDate { get; set; }
 
         public string? SessionId { get; set; }
-        public string? PaymentIntentId { get; set; }
+        public string? PaymentGuidentId { get; set; }
 
         [Required]
         public string PhoneNumber { get; set; }

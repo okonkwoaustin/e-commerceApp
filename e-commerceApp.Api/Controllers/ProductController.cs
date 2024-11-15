@@ -1,8 +1,6 @@
 ﻿using e_commerceApp.Application.Dto;
 using e_commerceApp.Application.Services.Interface;
 using e_commerceApp.Shared.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace e_commerceApp.Api.Controllers
@@ -32,17 +30,17 @@ namespace e_commerceApp.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(string id)
         {
            return Ok(await _productService.GetProductByIdAsync(id));
         }
         [HttpPost("UpdateProduct")]
-        public async Task<IActionResult> Edit(UpdateProduct product, int id)
+        public async Task<IActionResult> Edit(UpdateProduct product, string id)
         {
                 return Ok(await _productService.UpdateProduct(id, product));
         }
         [HttpPost]
-        public IActionResult DeleteProduct(int id)
+        public IActionResult DeleteProduct(string id)
         {
             return Ok(_productService.DeleteProductByIdAsync(id));
         }

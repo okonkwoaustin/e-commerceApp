@@ -1,7 +1,6 @@
 ﻿using e_commerceApp.Application.Services.Interface;
 using e_commerceApp.Shared.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -80,7 +79,7 @@ namespace e_commerceApp.Api.Controllers
 
         [HttpGet("{id}")]
         [Authorize]
-        public async Task<IActionResult> GetUserById(int id)
+        public async Task<IActionResult> GetUserById(string id)
         {
             var user = await _userService.GetUserById(id);
             if (user == null) return NotFound();
@@ -96,7 +95,7 @@ namespace e_commerceApp.Api.Controllers
 
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<IActionResult> UpdateUser(int id, User updatedUser)
+        public async Task<IActionResult> UpdateUser(string id, User updatedUser)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var success = await _userService.UpdateUser(id, updatedUser);
@@ -106,7 +105,7 @@ namespace e_commerceApp.Api.Controllers
 
         [HttpDelete("{id}")]
         [Authorize]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteUser(string id)
         {
             var success = await _userService.DeleteUser(id);
             if (!success) return NotFound();

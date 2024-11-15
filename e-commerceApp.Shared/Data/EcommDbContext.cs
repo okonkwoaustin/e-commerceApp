@@ -8,7 +8,7 @@ using System.Reflection.Emit;
 
 namespace e_commerceApp.Shared.Data
 {
-    public class EcommDbContext : IdentityDbContext<User, Role, int>
+    public class EcommDbContext : IdentityDbContext<User, Role, string>
     {
         public EcommDbContext(DbContextOptions<EcommDbContext> options) : base(options)
         {
@@ -16,7 +16,7 @@ namespace e_commerceApp.Shared.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Cart> Carts { get; set; }
-        public DbSet<CartItem> CartItems { get; set; }
+       //public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
@@ -33,6 +33,11 @@ namespace e_commerceApp.Shared.Data
               .WithMany(oh => oh.OrderDetails)
               .HasForeignKey(od => od.OrderHeaderId) 
               .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<ShoppingCartItem>()
+                .HasOne(s => s.User)
+                .WithMany()
+                .HasForeignKey(s => s.UserId);
+
 
             SeedRole(builder);
             builder.GenerateSeed();
@@ -43,9 +48,9 @@ namespace e_commerceApp.Shared.Data
             //create a role
             builder.Entity<Role>().HasData(
                 new Role
-                { Id = 1, Name = "Admin", NormalizedName = "ADMIN", ConcurrencyStamp = Guid.NewGuid().ToString() },
+                { Id = Guid.NewGuid().ToString(), Name = "Admin", NormalizedName = "ADMIN", ConcurrencyStamp = Guid.NewGuid().ToString() },
                 new Role
-                { Id = 2, Name = "User", NormalizedName = "USER", ConcurrencyStamp = Guid.NewGuid().ToString() });
+                { Id = Guid.NewGuid().ToString(), Name = "User", NormalizedName = "USER", ConcurrencyStamp = Guid.NewGuid().ToString() });
         }
 
     }

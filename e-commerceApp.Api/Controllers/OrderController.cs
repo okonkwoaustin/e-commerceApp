@@ -2,9 +2,8 @@
 using e_commerceApp.Application.Services.Implementation;
 using e_commerceApp.Application.Services.Interface;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Stripe.Climate;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace e_commerceApp.Api.Controllers
@@ -15,82 +14,79 @@ namespace e_commerceApp.Api.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IProductService _productService;
-        private readonly IShoppingCartService _shoppingCartService;
+        private readonly ShoppingCartService _shoppingCartService;
         private readonly IOrderService _ordersService;
 
-        public OrderController(IProductService productService, IShoppingCartService shoppingCartService, IOrderService orderService)
+        public OrderController(IProductService productService, ShoppingCartService shoppingCartService, IOrderService orderService)
         {
             _productService = productService;
             _shoppingCartService = shoppingCartService;
             _ordersService = orderService;
         }
-        [HttpGet("shopping-cart")]
-        public IActionResult ShoppingCart()
-        {
-            var items = _shoppingCartService.GetShoppingCartItems();
-            _shoppingCartService.ShoppingCartItems = items;
 
+
+        [HttpGet("shopping-cart")]
+        public async Task<IActionResult> ShoppingCart()
+        {
+            var items = await _shoppingCartService.GetShoppingCartItems();
+            _shoppingCartService.ShoppingCartItems = items.Data;
             var response = new ShoppingCartRequest()
             {
                 ShoppingCartService = _shoppingCartService,
                 ShoppingCartTotal = _shoppingCartService.GetShoppingCartTotal()
             };
+
             return Ok(response);
         }
+
+
+
         [HttpPost("add-to-cart/{id}")]
-        public async Task<IActionResult> AddItemToShoppingCart(int id)
+        public async Task<IActionResult> AddItemToShoppingCart(string id)
         {
             var item = await _productService.GetProductByIdAsync(id);
             if (item == null)
             {
                 return NotFound(new { Message = "Product not found." });
             }
-            _shoppingCartService.AddItemToCart(item);
+            await _shoppingCartService.AddItemToCart(item.Data);
             return Ok(new { Message = "Item added to cart successfully." });
         }
         [HttpDelete("remove-from-cart/{id}")]
-        public async Task<IActionResult> RemoveItemFromShoppingCart(int id)
+        public async Task<IActionResult> RemoveItemFromShoppingCart(string id)
         {
             var item = await _productService.GetProductByIdAsync(id);
-            if (item == null)
+            if (item.Data == null)
             {
                 return NotFound(new { Message = "Product not found." });
             }
-            _shoppingCartService.RemoveItemFromCart(item);
-            return Ok(new { Message = "Item removed from cart successfully." });
+            var result = await _shoppingCartService.RemoveItemFromCart(item.Data);
+            return Ok(result);
         }
 
         [HttpPost("complete-order")]
         public async Task<IActionResult> CompleteOrder()
         {
-            var items = _shoppingCartService.GetShoppingCartItems();
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            int usersId = int.Parse(userId);
-            string userEmailAddress = User.FindFirstValue(ClaimTypes.Email);
-            await _ordersService.StoreOrderAsync(items, usersId, userEmailAddress);
-            await _shoppingCartService.ClearShoppingCartAsync();
+            var items = await _shoppingCartService.GetShoppingCartItems();
+            string userId = User.FindFirstValue(JwtRegisteredClaimNames.Jti);
 
+            string userEmailAddress = User.FindFirstValue(ClaimTypes.Email);
+            await _ordersService.StoreOrderAsync(items.Data, userId, userEmailAddress);
+            await _shoppingCartService.ClearShoppingCartAsync();
             return Ok(new { Message = "Order completed successfully." });
         }
         [HttpGet("order")]
         public async Task<IActionResult> GetOrderByUserIdAndRole()
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userId = User.FindFirstValue(JwtRegisteredClaimNames.Jti);
             string userRole = User.FindFirstValue(ClaimTypes.Role);
-            int usersId = int.Parse(userId);
-            var orders = await _ordersService.GetOrderByUserIdAndRoleAsync(usersId, userRole);
+            var orders = await _ordersService.GetOrderByUserIdAndRoleAsync(userId, userRole);
             return Ok(orders);
         }
 
         [HttpPost("details-pay-now")]
         public async Task<IActionResult> Details_PAY_NOW([FromBody] PaymentRequest request)
         {
-            if (request == null || request.OrderId <= 0)
-            {
-                return BadRequest("Invalid order ID.");
-            }
-
-            // Call the payment service to create the payment session
             var sessionUrl = await _ordersService.CreateStripeCheckoutSessionAsync(request.OrderId);
 
             if (string.IsNullOrEmpty(sessionUrl))
@@ -100,16 +96,15 @@ namespace e_commerceApp.Api.Controllers
             return Ok(new { SessionUrl = sessionUrl });
         }
 
-        // Optional: Handle payment confirmation or cancel (if needed)
         [HttpGet("payment-confirmation")]
-        public IActionResult PaymentConfirmation([FromQuery] int orderHeaderId)
+        public IActionResult PaymentConfirmation([FromQuery] string orderHeaderId)
         {
-            var confirmPayment =  _ordersService.PaymentConfirmation(orderHeaderId);
+            var confirmPayment = _ordersService.PaymentConfirmation(orderHeaderId);
             return Ok(new { Message = "Payment successful", ConfirmPayment = confirmPayment });
         }
 
         [HttpPost("cancel-order")]
-        public async Task<IActionResult> CancelOrder([FromBody] int orderId)
+        public async Task<IActionResult> CancelOrder([FromBody] string orderId)
         {
             var result = await _ordersService.CancelOrderAsync(orderId);
             if (!result)
@@ -120,10 +115,10 @@ namespace e_commerceApp.Api.Controllers
         }
 
         [HttpPost("plus/{cartId}")]
-        public async Task<IActionResult> Plus(int cartId)
+        public async Task<IActionResult> Plus(string cartId)
         {
             var result = await _shoppingCartService.IncrementItemCountAsync(cartId);
-            if (!result)
+            if (!result.success)
             {
                 return NotFound("Cart item not found.");
             }
@@ -131,10 +126,10 @@ namespace e_commerceApp.Api.Controllers
         }
 
         [HttpPost("minus/{cartId}")]
-        public async Task<IActionResult> Minus(int cartId)
-        {      
+        public async Task<IActionResult> Minus(string cartId)
+        {
             var result = await _shoppingCartService.DecrementItemCountAsync(cartId);
-            if (!result)
+            if (!result.success)
             {
                 return NotFound("Cart item not found.");
             }

@@ -20,5 +20,17 @@
         public const string PaymentStatusRejected = "Rejected";
 
         public const string SessionCart = "SessionShoppingCart";
+
+        public const string Success = "Success";
+        public const string Created = "Created";
+        public const string NoContent = "NoContent";
+        public const string BadRequest = "BadRequest";
+        public const string Unauthorized = "Unauthorized";
+        public const string Forbidden = "Forbidden";
+        public const string NotFound = "NotFound";
+        public const string InternalServerError = "InternalServerError";
+        public const string DuplicateResource = "DuplicateResource";
+        public const string InvalidCredentials = "InvalidCredentials";
+        public const string ResourceAlreadyExists = "ResourceAlreadyExists";
     }
 }

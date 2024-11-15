@@ -1,13 +1,7 @@
 ﻿using e_commerceApp.Application.Services.Interface;
 using e_commerceApp.Shared.Models.Email;
 using MailKit.Net.Smtp;
-using Microsoft.Extensions.Configuration;
 using MimeKit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace e_commerceApp.Application.Services.Implementation
 {

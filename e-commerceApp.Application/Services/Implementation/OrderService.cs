@@ -19,7 +19,7 @@ namespace e_commerceApp.Application.Services.Implementation
             _logger = logger;
         }
      
-        public async Task<List<OrderHeader>> GetOrderByUserIdAndRoleAsync(int userId, string userRole)
+        public async Task<List<OrderHeader>> GetOrderByUserIdAndRoleAsync(string userId, string userRole)
         {
             var orders = await _ecommDbContext.OrderHeaders.Include(u => u.User).Include(u => u.OrderDetails).ThenInclude(u => u.Product).ToListAsync();
             if (userRole != "Admin")
@@ -29,7 +29,7 @@ namespace e_commerceApp.Application.Services.Implementation
             return orders;
         }
 
-        public async Task StoreOrderAsync(List<ShoppingCartItem> items, int userId, string userEmailAddress)
+        public async Task StoreOrderAsync(List<ShoppingCartItem> items, string userId, string userEmailAddress)
         {
             var user = await _ecommDbContext.Users.FirstOrDefaultAsync(u => u.Id == userId); 
 
@@ -47,7 +47,7 @@ namespace e_commerceApp.Application.Services.Implementation
                 PhoneNumber = user.PhoneNumber ?? "",  
                 StreetAddress = user.Address ?? "",  
                 Name = user.FirstName + " " + user.LastName,  
-                TotalPrice = items.Sum(i => i.Product.Price * i.Amount),
+                TotalPrice = items.Sum(i => i.Product.Price * i.Count),
             };
 
             await _ecommDbContext.OrderHeaders.AddAsync(order);
@@ -57,7 +57,7 @@ namespace e_commerceApp.Application.Services.Implementation
             {
                 var orderItem = new OrderDetail()
                 {
-                    Count = item.Amount,  
+                    Count = item.Count,  
                     ProductId = item.Product.Id,  
                     OrderHeaderId = order.Id,  
                     Price = item.Product.Price  
@@ -68,7 +68,7 @@ namespace e_commerceApp.Application.Services.Implementation
         }
 
 
-        public async Task<string> CreateStripeCheckoutSessionAsync(int orderId)
+        public async Task<string> CreateStripeCheckoutSessionAsync(string orderId)
         {
             var orderHeader = await _ecommDbContext.OrderHeaders.Include(u => u.User).FirstOrDefaultAsync(u => u.Id == orderId);
 
@@ -128,14 +128,13 @@ namespace e_commerceApp.Application.Services.Implementation
             }
         }
 
-        public async Task<int> PaymentConfirmation(int orderHeaderid)
+        public async Task<string> PaymentConfirmation(string orderHeaderid)
         {
             var orderHeader = await _ecommDbContext.OrderHeaders.FirstOrDefaultAsync(u => u.Id == orderHeaderid);
             if (orderHeader!.PaymentStatus == Initials.PaymentStatusDelayedPayment)
             {
                 var service = new SessionService();
                 Session session = service.Get(orderHeader.SessionId);
-                //check the stripe status
                 if (session.PaymentStatus.ToLower() == "paid")
                 {
                     UpdateStatus(orderHeaderid, orderHeader.OrderStatus!, Initials.PaymentStatusApproved);
@@ -144,23 +143,18 @@ namespace e_commerceApp.Application.Services.Implementation
             }
             return orderHeaderid;
         }
-        public async Task<bool> CancelOrderAsync(int orderId)
+        public async Task<bool> CancelOrderAsync(string orderId)
         {
-            if (orderId <= 0)
-            {
-                throw new Exception("Invalid order ID.");
-            }
             var orderHeader = await _ecommDbContext.OrderHeaders.AsNoTracking().FirstOrDefaultAsync(u => u.Id == orderId);
             if (orderHeader == null)
                 return false; 
 
-            // If payment is approved, refund
             if (orderHeader.PaymentStatus == Initials.PaymentStatusApproved)
             {
                 var options = new RefundCreateOptions
                 {
                     Reason = RefundReasons.RequestedByCustomer,
-                    PaymentIntent = orderHeader.PaymentIntentId
+                    PaymentIntent = orderHeader.PaymentGuidentId
                 };
                 var service = new RefundService();
                 try
@@ -182,7 +176,7 @@ namespace e_commerceApp.Application.Services.Implementation
             await _ecommDbContext.SaveChangesAsync();
             return true;
         }
-        public async Task<bool> StartProcessingOrderAsync(int orderId)
+        public async Task<bool> StartProcessingOrderAsync(string orderId)
         {
             var orderHeader = await _ecommDbContext.OrderHeaders.FirstOrDefaultAsync(u => u.Id == orderId);
 
@@ -196,9 +190,7 @@ namespace e_commerceApp.Application.Services.Implementation
             await _ecommDbContext.SaveChangesAsync();
             return true;
         }
-
-        // Method to ship the order
-        public async Task<bool> ShipOrderAsync(int orderId, string trackingNumber, string carrier)
+        public async Task<bool> ShipOrderAsync(string orderId, string trackingNumber, string carrier)
         {
             var orderHeader = await _ecommDbContext.OrderHeaders.FirstOrDefaultAsync(u => u.Id == orderId);
 
@@ -224,7 +216,7 @@ namespace e_commerceApp.Application.Services.Implementation
             _ecommDbContext.OrderHeaders.Update(obj);
         }
 
-        private void UpdateStatus(int id, string orderStatus, string? paymentStatus = null)
+        private void UpdateStatus(string id, string orderStatus, string? paymentStatus = null)
         {
             var orderFromDb = _ecommDbContext.OrderHeaders.FirstOrDefault(u => u.Id == id);
             if (orderFromDb != null)
@@ -237,12 +229,12 @@ namespace e_commerceApp.Application.Services.Implementation
             }
         }
 
-        private void UpdateStripePaymentID(int id, string sessionId, string paymentItentId)
+        private void UpdateStripePaymentID(string id, string sessionId, string paymentItentId)
         {
             var orderFromDb = _ecommDbContext.OrderHeaders.FirstOrDefault(u => u.Id == id);
             orderFromDb!.PaymentDate = DateTime.Now;
             orderFromDb.SessionId = sessionId;
-            orderFromDb.PaymentIntentId = paymentItentId;
+            orderFromDb.PaymentGuidentId = paymentItentId;
         }
 
         //public async Task<List<Order>> GetOrderByUserIdAndRoleAsync(string userId, string userRole)

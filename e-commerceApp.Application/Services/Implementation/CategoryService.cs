@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using e_commerceApp.Application.Dto;
 using e_commerceApp.Application.Services.Interface;
+using e_commerceApp.Shared;
 using e_commerceApp.Shared.Data;
 using e_commerceApp.Shared.Models;
 using Microsoft.EntityFrameworkCore;
@@ -17,57 +18,73 @@ namespace e_commerceApp.Application.Services.Implementation
             _ecommDbContext = ecommDbContext;
             _mapper = mapper;
         }
-        public async Task<List<Category>> GetAllCategoryAsync()
+        public async Task<ServiceResponse<List<CategoryDto>>> GetAllCategoryAsync()
         {
             var categoryDetail = await _ecommDbContext.Categorys
+                .Include(u => u.Products)
                 .ToListAsync();
-            return categoryDetail;
+
+            if (!categoryDetail.Any())
+            {
+                return new ServiceResponse<List<CategoryDto>>(null, success: false, Initials.NotFound);
+            }
+            var categoryDtos = categoryDetail.Select(category => new CategoryDto
+            {
+                Id = category.Id,
+                Name = category.Name,
+                ProductIds = category.Products!.Select(p => p.Id).ToList()
+            }).ToList();
+
+            return new ServiceResponse<List<CategoryDto>>(categoryDtos, success: true, message: "Categories retrieved successfully.");
         }
-        public async Task<Category> GetCategoryByIdAsync(int id)
+
+        public async Task<ServiceResponse<Category>> GetCategoryByIdAsync(string id)
         {
             var categoryDetails = await _ecommDbContext.Categorys
                 .FirstOrDefaultAsync(u => u.Id == id);
             if (categoryDetails == null)
             {
-                return null;
+                return new ServiceResponse<Category>(null!, success: false, message: "Category not found.");
             }
-            return categoryDetails;
-        }
-        public async Task DeleteCategoryByIdAsync(int id)
-        {
-            var categoryDetail = await _ecommDbContext.Categorys
-               .FirstOrDefaultAsync(u => u.Id == id);
-            if (categoryDetail != null)
-            {
-                _ecommDbContext.Categorys.Remove(categoryDetail);
-                _ecommDbContext.SaveChanges();
-            }
+            return new ServiceResponse<Category>(categoryDetails, success: true, message: "Category retrieved successfully.");
         }
 
-        public async Task<Category> AddCategory(CreateCategory createCategory)
+        public async Task<ServiceResponse<bool>> DeleteCategoryByIdAsync(string id)
         {
-            var category = _mapper.Map<Category>(createCategory);   
-            var addCategory = await _ecommDbContext.Categorys.AddAsync(category);
+            var categoryDetail = await _ecommDbContext.Categorys.Include(u => u.Products)
+                .FirstOrDefaultAsync(u => u.Id == id);
+            if (categoryDetail == null)
+            {
+                return new ServiceResponse<bool>(false, success: false, message: "Category not found.");
+            }
+            _ecommDbContext.Categorys.Remove(categoryDetail);
             await _ecommDbContext.SaveChangesAsync();
-            if (addCategory == null)
-            {
-                return null;
-            }
-            return addCategory.Entity;
+            return new ServiceResponse<bool>(true, success: true, message: "Category deleted successfully.");
         }
 
-
-        public async Task<Category> UpdateCategory(int id, UpdateCategory updateCategory)
+        public async Task<ServiceResponse<Category>> AddCategory(CreateCategory createCategory)
         {
-            var category = _mapper.Map<Category>(updateCategory);
-            var getCategory = await _ecommDbContext.Categorys.FirstOrDefaultAsync(u => u.Id == id);
-            if (getCategory == null)
-            {
-                return null;
-            }
-            _ecommDbContext.Categorys.Update(category);
-            _ecommDbContext.SaveChanges();
-            return category;
+            var category = _mapper.Map<Category>(createCategory);
+
+            await _ecommDbContext.Categorys.AddAsync(category);
+            await _ecommDbContext.SaveChangesAsync();
+            return new ServiceResponse<Category>(category, success: true, message: "Category added successfully.");
         }
+
+        public async Task<ServiceResponse<Category>> UpdateCategory(string id, UpdateCategory updateCategory)
+        {
+            var category = await _ecommDbContext.Categorys.FirstOrDefaultAsync(u => u.Id == id);
+            if (category == null)
+            {
+                return new ServiceResponse<Category>(null, success: false, message: "Category not found.");
+            }
+            _mapper.Map(updateCategory, category);
+
+            _ecommDbContext.Categorys.Update(category);
+            await _ecommDbContext.SaveChangesAsync();
+
+            return new ServiceResponse<Category>(category, success: true, message: "Category updated successfully.");
+        }
+
     }
 }

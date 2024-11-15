@@ -1,7 +1,5 @@
 ﻿using e_commerceApp.Application.Dto;
 using e_commerceApp.Application.Services.Interface;
-using e_commerceApp.Shared.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace e_commerceApp.Api.Controllers
@@ -16,7 +14,7 @@ namespace e_commerceApp.Api.Controllers
         {
             _categoryService = categoryService;
         }
-        [HttpGet("getAllProduct")]
+        [HttpGet("getAllCategory")]
         public async Task<IActionResult> GetAllCategory()
         {
             var data = await _categoryService.GetAllCategoryAsync();
@@ -30,17 +28,17 @@ namespace e_commerceApp.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(string id)
         {
             return Ok(await _categoryService.GetCategoryByIdAsync(id));
         }
-        [HttpPost("UpdateProduct")]
-        public async Task<IActionResult> Edit(UpdateCategory category, int id)
+        [HttpPost("UpdateCategory")]
+        public async Task<IActionResult> Edit(UpdateCategory category, string id)
         {
             return Ok(await _categoryService.UpdateCategory(id, category));
         }
         [HttpPost]
-        public IActionResult DeleteActor(int id)
+        public IActionResult DeleteCategory(string id)
         {
             return Ok(_categoryService.DeleteCategoryByIdAsync(id));
         }
