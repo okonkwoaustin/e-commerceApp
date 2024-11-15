@@ -1,11 +1,12 @@
 ﻿namespace e_commerceApp.Shared.Models
 {
-    public class CartItem
-    {
-        public int Id { get; set; }
-        public int CartId { get; set; }
-        public int ProductId { get; set; }
-        public int Quantity { get; set; }
-        public decimal Price { get; set; }
-    }
+    //public class CartItem
+    //{
+    //    public Guid Id { get; set; }
+    //    public Guid CartId { get; set; }
+    //    public Guid ProductId { get; set; }
+    //    public Guid UserId { get; set; }
+    //    public int Quantity { get; set; }
+    //    public decimal Price { get; set; }
+    //}
 }

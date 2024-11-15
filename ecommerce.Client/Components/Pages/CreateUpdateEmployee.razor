@@ -1,0 +1,92 @@
+﻿@using Newtonsoft.Json
+@using System.Text
+@using e_commerceApp.Shared.Models
+@using ecommerce.Client.Enums
+
+@inject ISnackbar snacker
+@inject HttpClient _httpClient
+
+<EditForm Model="@model" OnValidSubmit="OnValidSubmit">
+    <MudDialog>
+        <DialogContent>
+            <DataAnnotationsValidator />
+            <MudGrid Class="mb-5">
+                <MudItem xs="9">
+                    <MudTextField Variant="Variant.Outlined" @bind-Value="model.FullName" Label="Full Name" />
+                </MudItem>
+                <MudItem xs="3">
+                    <MudTextField Variant="Variant.Outlined" @bind-Value="model.Age" Label="Age" />
+                </MudItem>
+            </MudGrid>
+            <MudDatePicker Class="mb-5" Variant="Variant.Outlined" Label="Date of Birth" @bind-Date="_date" />
+            <MudDatePicker Class="mb-5" Variant="Variant.Outlined" Label="Date Created" @bind-Date="_date" ReadOnly="true" Value="_date" />
+            <MudTextField Class="mb-5" Variant="Variant.Outlined" @bind-Value="model.Department" Label="Department" />
+            <MudTextField Class="mb-5" Variant="Variant.Outlined" @bind-Value="model.PhoneNumber" Label="Phone Number" />
+        </DialogContent>
+        <DialogActions>
+            <MudButton OnClick="Cancel">Cancel</MudButton>
+            <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary">Save</MudButton>
+        </DialogActions>
+    </MudDialog>
+</EditForm>
+
+@code {
+    [Parameter]
+    public UIActionEnum Action { get; set; } = UIActionEnum.Insert;
+
+    [CascadingParameter] 
+    private MudDialogInstance mudDialog { get; set; }
+    [Parameter]
+    public DateTime? _date { get; set; } = DateTime.Today;
+    [Parameter]
+    public Employee model { get; set; } = new Employee();
+
+    private async Task OnValidSubmit(EditContext editContext)
+    {
+        if (_date.HasValue) 
+        {
+            model.DateOfBirth = _date.Value; 
+        }
+        if(Action == UIActionEnum.Insert)
+        {
+           await CreateEmployee();
+        }
+       await UpdateEmployee();
+
+    }
+    private async Task CreateEmployee()
+    {
+        var result = await _httpClient.PostAsJsonAsync("api/Employee/Create", model);
+        var errorResponse = await result.Content.ReadAsStringAsync();
+        if (result.IsSuccessStatusCode)
+        {
+            snacker.Add("Successfully created the employee!", Severity.Success);
+            mudDialog.Close();
+        }
+        else
+        {
+            snacker.Add("Failed to create the employee!", Severity.Error);
+            mudDialog.Close();
+        }
+    }
+    private async Task UpdateEmployee()
+    {
+        var result = await _httpClient.PostAsJsonAsync("api/Employee/UpdateEmployee", model);
+        var errorResponse = await result.Content.ReadAsStringAsync();
+        if (result.IsSuccessStatusCode)
+        {
+            snacker.Add("Successfully updated the employee!", Severity.Success);
+            mudDialog.Close();
+        }
+        else
+        {
+            snacker.Add("Failed to update the employee!", Severity.Error);
+            mudDialog.Close();
+        }
+    }
+
+    private void Cancel()
+    {
+        mudDialog.Cancel(); 
+    }
+}

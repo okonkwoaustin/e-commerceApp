@@ -2,10 +2,10 @@
 {
     public class Review
     {
-        public int Id { get; set; }
-        public int ProductId { get; set; }
-        public int CustomerId { get; set; }
-        public int Rating { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string ProductId { get; set; }
+        public string CustomerId { get; set; }
+        public int Rating { get; set; } 
         public string Comment { get; set; }
         public DateTime CreatedDate { get; set; }
     }

@@ -2,7 +2,7 @@
 
 namespace e_commerceApp.Shared.Models.Auth
 {
-    public class Role: IdentityRole<int>
+    public class Role: IdentityRole<string>
     {
     }
 }

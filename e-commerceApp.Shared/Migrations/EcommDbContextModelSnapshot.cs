@@ -24,11 +24,8 @@ namespace e_commerceApp.Shared.Migrations
 
             modelBuilder.Entity("e_commerceApp.Shared.Models.Auth.Role", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -54,15 +51,15 @@ namespace e_commerceApp.Shared.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            ConcurrencyStamp = "f7dd0904-c930-450c-918f-f6fc4922c4be",
+                            Id = "3889503c-4b3a-48c3-a6fe-6edda2754867",
+                            ConcurrencyStamp = "b7b6e5b1-3cd6-4efd-b664-273e63a241e0",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = 2,
-                            ConcurrencyStamp = "00299b7e-3a84-4e73-a18b-eaa1de64043d",
+                            Id = "e7b4ebce-0e1c-4e4c-b5a8-713d9bca6805",
+                            ConcurrencyStamp = "0ef990bb-498f-412e-8c0a-95767493e7fb",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -70,11 +67,8 @@ namespace e_commerceApp.Shared.Migrations
 
             modelBuilder.Entity("e_commerceApp.Shared.Models.Auth.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -154,77 +148,424 @@ namespace e_commerceApp.Shared.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "7e4e7427-c28b-406e-a016-48b28d074381",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "4b8e4043-11c6-4ad8-8016-64eb94b977b9",
+                            CreatedAt = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3342),
+                            Email = "john.doe@example.com",
+                            EmailConfirmed = false,
+                            FirstName = "John",
+                            IsActive = true,
+                            LastName = "Doe",
+                            LockoutEnabled = false,
+                            PhoneNumber = "123456-7890",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3343),
+                            UserName = "john.doe@example.com"
+                        },
+                        new
+                        {
+                            Id = "dc87759f-624b-4744-ad42-941bf5abc596",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "8331d423-313a-4b65-b0b0-34715ad264bb",
+                            CreatedAt = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3349),
+                            Email = "jane.smith@example.com",
+                            EmailConfirmed = false,
+                            FirstName = "Jane",
+                            IsActive = true,
+                            LastName = "Smith",
+                            LockoutEnabled = false,
+                            PhoneNumber = "9876543210",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3350),
+                            UserName = "jane.smith@example.com"
+                        },
+                        new
+                        {
+                            Id = "04264620-2dc3-4eae-89d2-b8748a2faa5a",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "35c1464a-384a-4f06-8e61-098f8afeb1fa",
+                            CreatedAt = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3356),
+                            Email = "ike.sunny@example.com",
+                            EmailConfirmed = false,
+                            FirstName = "Ike",
+                            IsActive = true,
+                            LastName = "Sunny",
+                            LockoutEnabled = false,
+                            PhoneNumber = "4567891234",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3357),
+                            UserName = "ike.sunny@example.com"
+                        },
+                        new
+                        {
+                            Id = "44888132-952a-4b48-8a2e-861610b3ac2e",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "39e9b0cc-7cd3-488e-84c4-b2a69e57a113",
+                            CreatedAt = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3363),
+                            Email = "adam.jane@example.com",
+                            EmailConfirmed = false,
+                            FirstName = "Adam",
+                            IsActive = true,
+                            LastName = "Jane",
+                            LockoutEnabled = false,
+                            PhoneNumber = "3216549870",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3363),
+                            UserName = "adam.jane@example.com"
+                        },
+                        new
+                        {
+                            Id = "08f80a89-4e4e-4229-b078-f5848ca8d70d",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "908bb6c3-5c22-464b-9c00-94e4c9aad3cc",
+                            CreatedAt = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3369),
+                            Email = "ronald.smith@example.com",
+                            EmailConfirmed = false,
+                            FirstName = "Ronald",
+                            IsActive = true,
+                            LastName = "Smith",
+                            LockoutEnabled = false,
+                            PhoneNumber = "3216549870",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3370),
+                            UserName = "ronald.smith@example.com"
+                        },
+                        new
+                        {
+                            Id = "2e2cfc00-0b76-4c61-920e-ed6f43778790",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "0c66032c-f09b-4825-84a1-70fb53c9333c",
+                            CreatedAt = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3376),
+                            Email = "gate.paulo@example.com",
+                            EmailConfirmed = false,
+                            FirstName = "Gate",
+                            IsActive = true,
+                            LastName = "Paulo",
+                            LockoutEnabled = false,
+                            PhoneNumber = "3216549870",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3376),
+                            UserName = "gate.paulo@example.com"
+                        },
+                        new
+                        {
+                            Id = "b9418aad-4285-4d05-b354-709ff1ed64db",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "57222652-009c-4940-a8b4-1c9e1123175a",
+                            CreatedAt = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3382),
+                            Email = "lurge.luck@example.com",
+                            EmailConfirmed = false,
+                            FirstName = "Lurge",
+                            IsActive = true,
+                            LastName = "Luck",
+                            LockoutEnabled = false,
+                            PhoneNumber = "3216549870",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3382),
+                            UserName = "lurge.luck@example.com"
+                        },
+                        new
+                        {
+                            Id = "e68dfbda-9052-4bd2-b0a4-7ca76e5bdfb9",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "d99b1bb4-e648-4c17-87d1-59e70c515d05",
+                            CreatedAt = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3389),
+                            Email = "bana.good@example.com",
+                            EmailConfirmed = false,
+                            FirstName = "Bana",
+                            IsActive = true,
+                            LastName = "Good",
+                            LockoutEnabled = false,
+                            PhoneNumber = "3216549870",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3389),
+                            UserName = "bana.good@example.com"
+                        },
+                        new
+                        {
+                            Id = "e7cac291-487f-46b2-a1ab-7ccce946f2d6",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "570750ae-07c4-4936-a641-e15ac07011a9",
+                            CreatedAt = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3398),
+                            Email = "matt.paul@example.com",
+                            EmailConfirmed = false,
+                            FirstName = "Matt",
+                            IsActive = true,
+                            LastName = "Paul",
+                            LockoutEnabled = false,
+                            PhoneNumber = "3216549870",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3398),
+                            UserName = "matt.paul@example.com"
+                        },
+                        new
+                        {
+                            Id = "82e8a82f-489d-4c4b-aa91-1e61d35290a2",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "79dc86a4-be0f-4509-830a-f31122411fc8",
+                            CreatedAt = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3404),
+                            Email = "john.matt@example.com",
+                            EmailConfirmed = false,
+                            FirstName = "John",
+                            IsActive = true,
+                            LastName = "Matt",
+                            LockoutEnabled = false,
+                            PhoneNumber = "3216549870",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3405),
+                            UserName = "john.matt@example.com"
+                        },
+                        new
+                        {
+                            Id = "ae9778f0-d32a-48c5-9e71-3180c710c1bb",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "8c178494-cc0e-4dd7-9033-4279d82a2fee",
+                            CreatedAt = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3411),
+                            Email = "joan.mark@example.com",
+                            EmailConfirmed = false,
+                            FirstName = "Joan",
+                            IsActive = true,
+                            LastName = "Mark",
+                            LockoutEnabled = false,
+                            PhoneNumber = "3216549870",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3411),
+                            UserName = "joan.mark@example.com"
+                        });
                 });
 
             modelBuilder.Entity("e_commerceApp.Shared.Models.Cart", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Carts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "ab55e317-65d8-43a1-81e7-7a2a3d745051",
+                            CreatedDate = new DateTime(2024, 11, 3, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4916),
+                            ExpirationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = "7e4e7427-c28b-406e-a016-48b28d074381"
+                        },
+                        new
+                        {
+                            Id = "3c89ecf9-0784-4163-a2b2-8efb6db322d6",
+                            CreatedDate = new DateTime(2024, 11, 5, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4922),
+                            ExpirationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = "dc87759f-624b-4744-ad42-941bf5abc596"
+                        },
+                        new
+                        {
+                            Id = "1631fcfe-f664-43d2-a3fe-6b28ca3a39e8",
+                            CreatedDate = new DateTime(2024, 11, 8, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4930),
+                            ExpirationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = "04264620-2dc3-4eae-89d2-b8748a2faa5a"
+                        },
+                        new
+                        {
+                            Id = "afcf657f-f820-43cd-89e3-c7e73079c9b5",
+                            CreatedDate = new DateTime(2024, 11, 10, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4940),
+                            ExpirationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = "44888132-952a-4b48-8a2e-861610b3ac2e"
+                        },
+                        new
+                        {
+                            Id = "c8f19835-f014-4735-ab11-86c3b1b30ee9",
+                            CreatedDate = new DateTime(2024, 11, 11, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4946),
+                            ExpirationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = "08f80a89-4e4e-4229-b078-f5848ca8d70d"
+                        },
+                        new
+                        {
+                            Id = "8e773d84-3a2f-4230-82c0-9ff2af6d118e",
+                            CreatedDate = new DateTime(2024, 11, 8, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4952),
+                            ExpirationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = "2e2cfc00-0b76-4c61-920e-ed6f43778790"
+                        },
+                        new
+                        {
+                            Id = "3a5ab03f-9a51-435b-965c-b6027efc610a",
+                            CreatedDate = new DateTime(2024, 10, 31, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4957),
+                            ExpirationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = "b9418aad-4285-4d05-b354-709ff1ed64db"
+                        },
+                        new
+                        {
+                            Id = "4de67e63-4d16-424c-9225-94302e48232c",
+                            CreatedDate = new DateTime(2024, 11, 1, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4963),
+                            ExpirationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = "e68dfbda-9052-4bd2-b0a4-7ca76e5bdfb9"
+                        },
+                        new
+                        {
+                            Id = "41e405ba-d11d-42d7-b462-94ec83f95fc8",
+                            CreatedDate = new DateTime(2024, 11, 9, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4969),
+                            ExpirationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = "e7cac291-487f-46b2-a1ab-7ccce946f2d6"
+                        },
+                        new
+                        {
+                            Id = "0234b431-517a-4e0b-9c54-6cdf1ed98394",
+                            CreatedDate = new DateTime(2024, 10, 21, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4974),
+                            ExpirationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = "82e8a82f-489d-4c4b-aa91-1e61d35290a2"
+                        },
+                        new
+                        {
+                            Id = "fa63cda4-c45d-448e-814c-01a6966d1337",
+                            CreatedDate = new DateTime(2024, 11, 9, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4980),
+                            ExpirationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = "ae9778f0-d32a-48c5-9e71-3180c710c1bb"
+                        });
                 });
 
-            modelBuilder.Entity("e_commerceApp.Shared.Models.CartItem", b =>
+            modelBuilder.Entity("e_commerceApp.Shared.Models.Category", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("CartId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CartId");
+                    b.ToTable("Categorys");
 
-                    b.ToTable("CartItems");
+                    b.HasData(
+                        new
+                        {
+                            Id = "f0e56ab5-6662-4a96-a600-73f73d3eb81d",
+                            Name = "Phone"
+                        },
+                        new
+                        {
+                            Id = "1ce1e930-3c6c-4a27-8dd6-274d9220c25c",
+                            Name = "Laptop"
+                        },
+                        new
+                        {
+                            Id = "dd0667ec-847c-4c80-8d2e-b39d087f46a2",
+                            Name = "Charger"
+                        },
+                        new
+                        {
+                            Id = "c8ded83f-1bcd-48c4-a634-caeb3857a79d",
+                            Name = "Earpiece"
+                        },
+                        new
+                        {
+                            Id = "53e803d7-7fe0-47c3-b066-e83ae95fbecb",
+                            Name = "Tablet"
+                        },
+                        new
+                        {
+                            Id = "69427049-5ecc-4d2c-abd9-1f13b018aa01",
+                            Name = "Headphones"
+                        },
+                        new
+                        {
+                            Id = "927d3d6b-70d5-440c-8d8b-81be1c57478a",
+                            Name = "Smartwatch"
+                        },
+                        new
+                        {
+                            Id = "51c56838-4502-4b21-b950-641b7e68cfdf",
+                            Name = "Accessories"
+                        },
+                        new
+                        {
+                            Id = "781a9109-aefb-4f81-9ee4-e9eb999095be",
+                            Name = "Gaming"
+                        },
+                        new
+                        {
+                            Id = "e7dafc32-8ac4-4335-b563-2e2cc77bdca3",
+                            Name = "Fashion"
+                        },
+                        new
+                        {
+                            Id = "4989908c-a5a7-40d5-9145-978222a82764",
+                            Name = "Home Appliances"
+                        });
                 });
 
-            modelBuilder.Entity("e_commerceApp.Shared.Models.Customer", b =>
+            modelBuilder.Entity("e_commerceApp.Shared.Models.Employee", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Age")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Department")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("e_commerceApp.Shared.Models.Order", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
@@ -235,27 +576,454 @@ namespace e_commerceApp.Shared.Migrations
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("e_commerceApp.Shared.Models.OrderDetail", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OrderHeaderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ProductId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderHeaderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("OrderDetails");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "59583e0d-9636-4c95-907b-d965d8a2e9b4",
+                            Count = 2,
+                            OrderHeaderId = "ca4f46cd-241a-4c5e-981b-716f5f1a0a58",
+                            Price = 1999m,
+                            ProductId = "f990b229-ea56-4ed4-8587-ae59eb668bb7",
+                            UserId = "7e4e7427-c28b-406e-a016-48b28d074381"
+                        },
+                        new
+                        {
+                            Id = "363b14a6-8596-4de9-807d-145743e7cfeb",
+                            Count = 1,
+                            OrderHeaderId = "6b54be10-6fe2-4dc0-88ab-688bc9bc0b35",
+                            Price = 2999m,
+                            ProductId = "0816d206-9b6b-4e93-9392-68e664b58dc5",
+                            UserId = "dc87759f-624b-4744-ad42-941bf5abc596"
+                        },
+                        new
+                        {
+                            Id = "a29b95a5-0439-4f07-8f0f-d3bbb7d3171a",
+                            Count = 3,
+                            OrderHeaderId = "bd74011e-f7da-440d-b2a7-1dbe201b2081",
+                            Price = 4999m,
+                            ProductId = "88809696-8c47-49bf-bf89-3ae1e24e9c8c",
+                            UserId = "04264620-2dc3-4eae-89d2-b8748a2faa5a"
+                        },
+                        new
+                        {
+                            Id = "b10e30e2-44b5-4801-9f56-a1c356e51bb7",
+                            Count = 5,
+                            OrderHeaderId = "ff85683b-a10b-4f5b-bc12-63b6162944dd",
+                            Price = 4500m,
+                            ProductId = "eeae9e1f-3afe-4776-827d-5a1e984683b3",
+                            UserId = "44888132-952a-4b48-8a2e-861610b3ac2e"
+                        },
+                        new
+                        {
+                            Id = "22539b11-6d45-429d-ae8a-8b1a6ad34647",
+                            Count = 6,
+                            OrderHeaderId = "096851c4-42d9-4874-b29f-cbc6829c3780",
+                            Price = 55000m,
+                            ProductId = "3dec7008-ae6e-4154-aa61-bf7f8670e695",
+                            UserId = "08f80a89-4e4e-4229-b078-f5848ca8d70d"
+                        },
+                        new
+                        {
+                            Id = "71317e45-0250-4fb0-b5b8-b80a393b1cd8",
+                            Count = 9,
+                            OrderHeaderId = "f410a014-01b4-4978-b16c-f9a948052cb1",
+                            Price = 6700m,
+                            ProductId = "8250eb3e-0fa1-4276-9f7f-424b827fe26a",
+                            UserId = "2e2cfc00-0b76-4c61-920e-ed6f43778790"
+                        },
+                        new
+                        {
+                            Id = "72c9994a-e1d7-411b-9668-50a35963397d",
+                            Count = 3,
+                            OrderHeaderId = "9bdac360-9713-45e2-8992-3cd7121ea914",
+                            Price = 8900m,
+                            ProductId = "691880e6-9963-4843-b16a-0caa6db921e8",
+                            UserId = "b9418aad-4285-4d05-b354-709ff1ed64db"
+                        },
+                        new
+                        {
+                            Id = "63ba0111-052a-4a21-9d62-8bde5429405e",
+                            Count = 5,
+                            OrderHeaderId = "2ccdd4bb-3f3e-4c12-852a-af93b01fdef1",
+                            Price = 45000m,
+                            ProductId = "a31627b8-0843-4687-a8ad-c145499adf8c",
+                            UserId = "e68dfbda-9052-4bd2-b0a4-7ca76e5bdfb9"
+                        },
+                        new
+                        {
+                            Id = "a8ea82d0-8728-4d61-bedb-1633c05f3e82",
+                            Count = 8,
+                            OrderHeaderId = "fc877e15-5a41-4977-9e9f-aa2a884b7de5",
+                            Price = 99000m,
+                            ProductId = "4b4483be-aef2-4cbe-9561-176533230a2e",
+                            UserId = "e7cac291-487f-46b2-a1ab-7ccce946f2d6"
+                        },
+                        new
+                        {
+                            Id = "bcf43e1d-3342-4189-be39-7edc59496068",
+                            Count = 7,
+                            OrderHeaderId = "5a8979e8-00e4-461b-84b9-c8668c2180db",
+                            Price = 8900m,
+                            ProductId = "7670c434-42d3-4a37-a552-2eebb9e5a9ea",
+                            UserId = "82e8a82f-489d-4c4b-aa91-1e61d35290a2"
+                        },
+                        new
+                        {
+                            Id = "4edaf8fa-d467-478f-9f44-740e0b81da36",
+                            Count = 6,
+                            OrderHeaderId = "d8ad4474-094c-4e41-a0ae-a3a5bf800a60",
+                            Price = 235000m,
+                            ProductId = "9ae39737-7d17-4a44-ab9a-a6d5f8230b0b",
+                            UserId = "ae9778f0-d32a-48c5-9e71-3180c710c1bb"
+                        });
+                });
+
+            modelBuilder.Entity("e_commerceApp.Shared.Models.OrderHeader", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Carrier")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OrderStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("PaymentDueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PaymentGuidentId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SessionId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ShippingDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StreetAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("TrackingNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("OrderHeaders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "ca4f46cd-241a-4c5e-981b-716f5f1a0a58",
+                            City = "City A",
+                            Name = "John Doe",
+                            OrderDate = new DateTime(2024, 11, 3, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3917),
+                            OrderStatus = "Shipped",
+                            PaymentDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentDueDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentStatus = "Paid",
+                            PhoneNumber = "1234567890",
+                            PostalCode = "12345",
+                            ShippingDate = new DateTime(2024, 11, 8, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3924),
+                            State = "Agege",
+                            StreetAddress = "123 Main St",
+                            TotalPrice = 9999m,
+                            UnitPrice = 0m,
+                            UserId = "7e4e7427-c28b-406e-a016-48b28d074381"
+                        },
+                        new
+                        {
+                            Id = "6b54be10-6fe2-4dc0-88ab-688bc9bc0b35",
+                            City = "City B",
+                            Name = "Jane Sunny",
+                            OrderDate = new DateTime(2024, 11, 5, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3934),
+                            OrderStatus = "Delivered",
+                            PaymentDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentDueDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentStatus = "UnPaid",
+                            PhoneNumber = "98789943210",
+                            PostalCode = "67890",
+                            ShippingDate = new DateTime(2024, 11, 9, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3934),
+                            State = "Ajah",
+                            StreetAddress = "86 Oak St",
+                            TotalPrice = 19999m,
+                            UnitPrice = 0m,
+                            UserId = "dc87759f-624b-4744-ad42-941bf5abc596"
+                        },
+                        new
+                        {
+                            Id = "bd74011e-f7da-440d-b2a7-1dbe201b2081",
+                            City = "City C",
+                            Name = "James Wis",
+                            OrderDate = new DateTime(2024, 11, 4, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3942),
+                            OrderStatus = "Confirmed",
+                            PaymentDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentDueDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentStatus = "Paid",
+                            PhoneNumber = "9867843210",
+                            PostalCode = "77898",
+                            ShippingDate = new DateTime(2024, 11, 4, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3943),
+                            State = " Makurdi",
+                            StreetAddress = "45 Oak St",
+                            TotalPrice = 70000m,
+                            UnitPrice = 0m,
+                            UserId = "04264620-2dc3-4eae-89d2-b8748a2faa5a"
+                        },
+                        new
+                        {
+                            Id = "ff85683b-a10b-4f5b-bc12-63b6162944dd",
+                            City = "City D",
+                            Name = "Joan Mark",
+                            OrderDate = new DateTime(2024, 11, 7, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3950),
+                            OrderStatus = "Delivered",
+                            PaymentDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentDueDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentStatus = "Refunded",
+                            PhoneNumber = "9876543210",
+                            PostalCode = "78754",
+                            ShippingDate = new DateTime(2024, 11, 9, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3950),
+                            State = "State A",
+                            StreetAddress = "956 Oak St",
+                            TotalPrice = 60000m,
+                            UnitPrice = 0m,
+                            UserId = "44888132-952a-4b48-8a2e-861610b3ac2e"
+                        },
+                        new
+                        {
+                            Id = "096851c4-42d9-4874-b29f-cbc6829c3780",
+                            City = "City E",
+                            Name = "John Matt",
+                            OrderDate = new DateTime(2024, 11, 12, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3957),
+                            OrderStatus = "Confirmed",
+                            PaymentDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentDueDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentStatus = "Paid",
+                            PhoneNumber = "9876887210",
+                            PostalCode = "99654",
+                            ShippingDate = new DateTime(2024, 11, 5, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3957),
+                            State = "State Polaris",
+                            StreetAddress = "496 Oak St",
+                            TotalPrice = 87000m,
+                            UnitPrice = 0m,
+                            UserId = "08f80a89-4e4e-4229-b078-f5848ca8d70d"
+                        },
+                        new
+                        {
+                            Id = "f410a014-01b4-4978-b16c-f9a948052cb1",
+                            City = "City F",
+                            Name = "Matt Paul",
+                            OrderDate = new DateTime(2024, 11, 1, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3964),
+                            OrderStatus = "Pending",
+                            PaymentDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentDueDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentStatus = "Refunded",
+                            PhoneNumber = "4878743210",
+                            PostalCode = "09908",
+                            ShippingDate = new DateTime(2024, 11, 9, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3965),
+                            State = "State New",
+                            StreetAddress = "76 Oak St",
+                            TotalPrice = 76000m,
+                            UnitPrice = 0m,
+                            UserId = "2e2cfc00-0b76-4c61-920e-ed6f43778790"
+                        },
+                        new
+                        {
+                            Id = "9bdac360-9713-45e2-8992-3cd7121ea914",
+                            City = "City G",
+                            Name = "Bana Good",
+                            OrderDate = new DateTime(2024, 11, 5, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3973),
+                            OrderStatus = "Cancelled",
+                            PaymentDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentDueDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentStatus = "Paid",
+                            PhoneNumber = "9898743210",
+                            PostalCode = "88978",
+                            ShippingDate = new DateTime(2024, 11, 6, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3973),
+                            State = "State Paris",
+                            StreetAddress = "6 Oak St",
+                            TotalPrice = 30000m,
+                            UnitPrice = 0m,
+                            UserId = "b9418aad-4285-4d05-b354-709ff1ed64db"
+                        },
+                        new
+                        {
+                            Id = "2ccdd4bb-3f3e-4c12-852a-af93b01fdef1",
+                            City = "City H",
+                            Name = "Lurge Luck",
+                            OrderDate = new DateTime(2024, 11, 4, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3985),
+                            OrderStatus = "Confirmed",
+                            PaymentDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentDueDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentStatus = "Refunded",
+                            PhoneNumber = "9874543210",
+                            PostalCode = "00986",
+                            ShippingDate = new DateTime(2024, 11, 8, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3986),
+                            State = "State",
+                            StreetAddress = "86 Oak St",
+                            TotalPrice = 90000m,
+                            UnitPrice = 0m,
+                            UserId = "e68dfbda-9052-4bd2-b0a4-7ca76e5bdfb9"
+                        },
+                        new
+                        {
+                            Id = "fc877e15-5a41-4977-9e9f-aa2a884b7de5",
+                            City = "City I",
+                            Name = "Gate Paulo",
+                            OrderDate = new DateTime(2024, 10, 30, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3993),
+                            OrderStatus = "Cancelled",
+                            PaymentDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentDueDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentStatus = "UnPaid",
+                            PhoneNumber = "9878453210",
+                            PostalCode = "00987",
+                            ShippingDate = new DateTime(2024, 10, 30, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3993),
+                            State = "State Mark",
+                            StreetAddress = "26 Oak St",
+                            TotalPrice = 98000m,
+                            UnitPrice = 0m,
+                            UserId = "e7cac291-487f-46b2-a1ab-7ccce946f2d6"
+                        },
+                        new
+                        {
+                            Id = "5a8979e8-00e4-461b-84b9-c8668c2180db",
+                            City = "City J",
+                            Name = "Ronald Smith",
+                            OrderDate = new DateTime(2024, 10, 26, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4000),
+                            OrderStatus = "Pending",
+                            PaymentDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentDueDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentStatus = "Refunded",
+                            PhoneNumber = "6526543210",
+                            PostalCode = "77654",
+                            ShippingDate = new DateTime(2024, 10, 21, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4001),
+                            State = "State Town",
+                            StreetAddress = "956 Oak St",
+                            TotalPrice = 67000m,
+                            UnitPrice = 0m,
+                            UserId = "82e8a82f-489d-4c4b-aa91-1e61d35290a2"
+                        },
+                        new
+                        {
+                            Id = "d8ad4474-094c-4e41-a0ae-a3a5bf800a60",
+                            City = "City K",
+                            Name = "Jane Adam",
+                            OrderDate = new DateTime(2024, 11, 6, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4008),
+                            OrderStatus = "Shipped",
+                            PaymentDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentDueDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PaymentStatus = "Paid",
+                            PhoneNumber = "9876920210",
+                            PostalCode = "88765",
+                            ShippingDate = new DateTime(2024, 11, 10, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4008),
+                            State = "State V",
+                            StreetAddress = "16 Oak St",
+                            TotalPrice = 450000m,
+                            UnitPrice = 0m,
+                            UserId = "ae9778f0-d32a-48c5-9e71-3180c710c1bb"
+                        });
+                });
+
             modelBuilder.Entity("e_commerceApp.Shared.Models.OrderItem", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<string>("OrderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
+                    b.Property<string>("ProductId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<string>("Quantity")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
@@ -267,16 +1035,19 @@ namespace e_commerceApp.Shared.Migrations
 
                     b.HasIndex("OrderId");
 
+                    b.HasIndex("ProductId");
+
                     b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("e_commerceApp.Shared.Models.Product", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<string>("CartegoryId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -289,8 +1060,8 @@ namespace e_commerceApp.Shared.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("ProductStatus")
                         .HasColumnType("int");
@@ -307,16 +1078,160 @@ namespace e_commerceApp.Shared.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CartegoryId");
+
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "f990b229-ea56-4ed4-8587-ae59eb668bb7",
+                            CartegoryId = "f0e56ab5-6662-4a96-a600-73f73d3eb81d",
+                            CreatedDate = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3683),
+                            Description = "Description of Product 1",
+                            ImageUrl = "https://example.com/images/product1.jpg",
+                            Price = 170000m,
+                            ProductStatus = 0,
+                            StockQuantity = 100,
+                            Title = "Product 1",
+                            UpdatedDate = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3684)
+                        },
+                        new
+                        {
+                            Id = "0816d206-9b6b-4e93-9392-68e664b58dc5",
+                            CartegoryId = "1ce1e930-3c6c-4a27-8dd6-274d9220c25c",
+                            CreatedDate = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3692),
+                            Description = "Description of Product 2",
+                            ImageUrl = "https://example.com/images/product2.jpg",
+                            Price = 295000m,
+                            ProductStatus = 0,
+                            StockQuantity = 50,
+                            Title = "Product 2",
+                            UpdatedDate = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3693)
+                        },
+                        new
+                        {
+                            Id = "88809696-8c47-49bf-bf89-3ae1e24e9c8c",
+                            CartegoryId = "dd0667ec-847c-4c80-8d2e-b39d087f46a2",
+                            CreatedDate = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3702),
+                            Description = "Description of Product 3",
+                            ImageUrl = "https://example.com/images/product3.jpg",
+                            Price = 49500m,
+                            ProductStatus = 2,
+                            StockQuantity = 40,
+                            Title = "Product 3",
+                            UpdatedDate = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3703)
+                        },
+                        new
+                        {
+                            Id = "eeae9e1f-3afe-4776-827d-5a1e984683b3",
+                            CartegoryId = "c8ded83f-1bcd-48c4-a634-caeb3857a79d",
+                            CreatedDate = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3710),
+                            Description = "Description of Product 4",
+                            ImageUrl = "https://example.com/images/product4.jpg",
+                            Price = 50000m,
+                            ProductStatus = 1,
+                            StockQuantity = 500,
+                            Title = "Product 4",
+                            UpdatedDate = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3710)
+                        },
+                        new
+                        {
+                            Id = "3dec7008-ae6e-4154-aa61-bf7f8670e695",
+                            CartegoryId = "53e803d7-7fe0-47c3-b066-e83ae95fbecb",
+                            CreatedDate = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3717),
+                            Description = "Description of Product 5",
+                            ImageUrl = "https://example.com/images/product5.jpg",
+                            Price = 900000m,
+                            ProductStatus = 1,
+                            StockQuantity = 700,
+                            Title = "Product 5",
+                            UpdatedDate = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3718)
+                        },
+                        new
+                        {
+                            Id = "8250eb3e-0fa1-4276-9f7f-424b827fe26a",
+                            CartegoryId = "69427049-5ecc-4d2c-abd9-1f13b018aa01",
+                            CreatedDate = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3724),
+                            Description = "Description of Product 6",
+                            ImageUrl = "https://example.com/images/product6.jpg",
+                            Price = 856000m,
+                            ProductStatus = 1,
+                            StockQuantity = 900,
+                            Title = "Product 6",
+                            UpdatedDate = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3725)
+                        },
+                        new
+                        {
+                            Id = "691880e6-9963-4843-b16a-0caa6db921e8",
+                            CartegoryId = "927d3d6b-70d5-440c-8d8b-81be1c57478a",
+                            CreatedDate = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3731),
+                            Description = "Description of Product 7",
+                            ImageUrl = "https://example.com/images/product7.jpg",
+                            Price = 7000m,
+                            ProductStatus = 1,
+                            StockQuantity = 80,
+                            Title = "Product 7",
+                            UpdatedDate = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3731)
+                        },
+                        new
+                        {
+                            Id = "a31627b8-0843-4687-a8ad-c145499adf8c",
+                            CartegoryId = "51c56838-4502-4b21-b950-641b7e68cfdf",
+                            CreatedDate = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3738),
+                            Description = "Description of Product 8",
+                            ImageUrl = "https://example.com/images/product8.jpg",
+                            Price = 25000m,
+                            ProductStatus = 1,
+                            StockQuantity = 800,
+                            Title = "Product 8",
+                            UpdatedDate = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3738)
+                        },
+                        new
+                        {
+                            Id = "4b4483be-aef2-4cbe-9561-176533230a2e",
+                            CartegoryId = "781a9109-aefb-4f81-9ee4-e9eb999095be",
+                            CreatedDate = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3745),
+                            Description = "Description of Product 9",
+                            ImageUrl = "https://example.com/images/product9.jpg",
+                            Price = 780000m,
+                            ProductStatus = 1,
+                            StockQuantity = 700,
+                            Title = "Product 9",
+                            UpdatedDate = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3745)
+                        },
+                        new
+                        {
+                            Id = "7670c434-42d3-4a37-a552-2eebb9e5a9ea",
+                            CartegoryId = "e7dafc32-8ac4-4335-b563-2e2cc77bdca3",
+                            CreatedDate = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3752),
+                            Description = "Description of Product 10",
+                            ImageUrl = "https://example.com/images/product10.jpg",
+                            Price = 56000m,
+                            ProductStatus = 1,
+                            StockQuantity = 700,
+                            Title = "Product 10",
+                            UpdatedDate = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3752)
+                        },
+                        new
+                        {
+                            Id = "9ae39737-7d17-4a44-ab9a-a6d5f8230b0b",
+                            CartegoryId = "4989908c-a5a7-40d5-9145-978222a82764",
+                            CreatedDate = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3762),
+                            Description = "Description of Product 11",
+                            ImageUrl = "https://example.com/images/product11.jpg",
+                            Price = 45000m,
+                            ProductStatus = 1,
+                            StockQuantity = 600,
+                            Title = "Product 11",
+                            UpdatedDate = new DateTime(2024, 11, 13, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(3762)
+                        });
                 });
 
             modelBuilder.Entity("e_commerceApp.Shared.Models.Review", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Comment")
                         .IsRequired()
@@ -325,21 +1240,247 @@ namespace e_commerceApp.Shared.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                    b.Property<string>("ProductId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ProductId");
+
                     b.ToTable("Reviews");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "4ae58da8-9a42-47c2-8af2-79a2088ea032",
+                            Comment = "Excellent product!",
+                            CreatedDate = new DateTime(2024, 11, 3, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4659),
+                            CustomerId = "7e4e7427-c28b-406e-a016-48b28d074381",
+                            ProductId = "f990b229-ea56-4ed4-8587-ae59eb668bb7",
+                            Rating = 5
+                        },
+                        new
+                        {
+                            Id = "54fe9d40-8f86-4e42-b82f-66b9b35f7f2f",
+                            Comment = "Good value for the price.",
+                            CreatedDate = new DateTime(2024, 11, 5, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4669),
+                            CustomerId = "dc87759f-624b-4744-ad42-941bf5abc596",
+                            ProductId = "0816d206-9b6b-4e93-9392-68e664b58dc5",
+                            Rating = 4
+                        },
+                        new
+                        {
+                            Id = "da43f761-28e7-4e64-8fe7-c6f36b4a8bec",
+                            Comment = "Satisfactory, but could be improved.",
+                            CreatedDate = new DateTime(2024, 11, 8, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4677),
+                            CustomerId = "04264620-2dc3-4eae-89d2-b8748a2faa5a",
+                            ProductId = "88809696-8c47-49bf-bf89-3ae1e24e9c8c",
+                            Rating = 3
+                        },
+                        new
+                        {
+                            Id = "6e71fc6e-df2f-4828-b8f4-56ef2393cfd8",
+                            Comment = "Fairly pleased with the quality.",
+                            CreatedDate = new DateTime(2024, 11, 10, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4684),
+                            CustomerId = "44888132-952a-4b48-8a2e-861610b3ac2e",
+                            ProductId = "eeae9e1f-3afe-4776-827d-5a1e984683b3",
+                            Rating = 1
+                        },
+                        new
+                        {
+                            Id = "3780768b-e42c-4545-85b6-0757a27ffab9",
+                            Comment = "Fairly pleased with the quality.",
+                            CreatedDate = new DateTime(2024, 11, 11, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4691),
+                            CustomerId = "08f80a89-4e4e-4229-b078-f5848ca8d70d",
+                            ProductId = "3dec7008-ae6e-4154-aa61-bf7f8670e695",
+                            Rating = 2
+                        },
+                        new
+                        {
+                            Id = "940d8265-ef2d-4adf-9736-d34765f3e61d",
+                            Comment = "Pleased with the quality.",
+                            CreatedDate = new DateTime(2024, 11, 8, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4698),
+                            CustomerId = "2e2cfc00-0b76-4c61-920e-ed6f43778790",
+                            ProductId = "8250eb3e-0fa1-4276-9f7f-424b827fe26a",
+                            Rating = 4
+                        },
+                        new
+                        {
+                            Id = "1228b24f-3656-4ed8-b150-a54f2d89b5e8",
+                            Comment = "Pleased with the quality.",
+                            CreatedDate = new DateTime(2024, 10, 31, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4709),
+                            CustomerId = "b9418aad-4285-4d05-b354-709ff1ed64db",
+                            ProductId = "691880e6-9963-4843-b16a-0caa6db921e8",
+                            Rating = 4
+                        },
+                        new
+                        {
+                            Id = "b717a62c-126c-4799-9b35-e121a75aacfd",
+                            Comment = "Very very pleased with the quality.",
+                            CreatedDate = new DateTime(2024, 11, 1, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4716),
+                            CustomerId = "e68dfbda-9052-4bd2-b0a4-7ca76e5bdfb9",
+                            ProductId = "a31627b8-0843-4687-a8ad-c145499adf8c",
+                            Rating = 5
+                        },
+                        new
+                        {
+                            Id = "9c0c03cf-a42d-4265-98be-f7c5d3e63ff7",
+                            Comment = "Awesome quality.",
+                            CreatedDate = new DateTime(2024, 11, 9, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4728),
+                            CustomerId = "e7cac291-487f-46b2-a1ab-7ccce946f2d6",
+                            ProductId = "4b4483be-aef2-4cbe-9561-176533230a2e",
+                            Rating = 5
+                        },
+                        new
+                        {
+                            Id = "a2e0943c-29bc-4990-95dd-b2ad65dd4170",
+                            Comment = "Not really a great quality.",
+                            CreatedDate = new DateTime(2024, 10, 21, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4736),
+                            CustomerId = "82e8a82f-489d-4c4b-aa91-1e61d35290a2",
+                            ProductId = "7670c434-42d3-4a37-a552-2eebb9e5a9ea",
+                            Rating = 2
+                        },
+                        new
+                        {
+                            Id = "7aa2d302-4554-4a73-9287-50442e538bd2",
+                            Comment = "Partially pleased with the quality.",
+                            CreatedDate = new DateTime(2024, 11, 9, 17, 12, 30, 380, DateTimeKind.Utc).AddTicks(4865),
+                            CustomerId = "ae9778f0-d32a-48c5-9e71-3180c710c1bb",
+                            ProductId = "9ae39737-7d17-4a44-ab9a-a6d5f8230b0b",
+                            Rating = 3
+                        });
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+            modelBuilder.Entity("e_commerceApp.Shared.Models.ShoppingCartItem", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProductId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ShoppingCartId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("ShoppingCartId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ShoppingCartItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "28a2762f-9102-4cfe-ad18-6da77d9a6df4",
+                            Count = 2,
+                            ProductId = "f990b229-ea56-4ed4-8587-ae59eb668bb7",
+                            ShoppingCartId = "ab55e317-65d8-43a1-81e7-7a2a3d745051",
+                            UserId = "7e4e7427-c28b-406e-a016-48b28d074381"
+                        },
+                        new
+                        {
+                            Id = "8c811be1-a4f9-401d-8f6d-0cb7f741c47c",
+                            Count = 1,
+                            ProductId = "0816d206-9b6b-4e93-9392-68e664b58dc5",
+                            ShoppingCartId = "3c89ecf9-0784-4163-a2b2-8efb6db322d6",
+                            UserId = "dc87759f-624b-4744-ad42-941bf5abc596"
+                        },
+                        new
+                        {
+                            Id = "4bad18f4-6d23-40f1-a316-0eb6ac3ccca8",
+                            Count = 4,
+                            ProductId = "88809696-8c47-49bf-bf89-3ae1e24e9c8c",
+                            ShoppingCartId = "1631fcfe-f664-43d2-a3fe-6b28ca3a39e8",
+                            UserId = "04264620-2dc3-4eae-89d2-b8748a2faa5a"
+                        },
+                        new
+                        {
+                            Id = "2c190aee-dab8-4f3f-b298-3aeb4d6ac4f7",
+                            Count = 5,
+                            ProductId = "eeae9e1f-3afe-4776-827d-5a1e984683b3",
+                            ShoppingCartId = "afcf657f-f820-43cd-89e3-c7e73079c9b5",
+                            UserId = "44888132-952a-4b48-8a2e-861610b3ac2e"
+                        },
+                        new
+                        {
+                            Id = "516b3377-f15e-4e77-8e04-88af7dbb4817",
+                            Count = 3,
+                            ProductId = "3dec7008-ae6e-4154-aa61-bf7f8670e695",
+                            ShoppingCartId = "c8f19835-f014-4735-ab11-86c3b1b30ee9",
+                            UserId = "08f80a89-4e4e-4229-b078-f5848ca8d70d"
+                        },
+                        new
+                        {
+                            Id = "f4d4a3ef-057f-4d68-8d55-f9216efaefaf",
+                            Count = 5,
+                            ProductId = "8250eb3e-0fa1-4276-9f7f-424b827fe26a",
+                            ShoppingCartId = "8e773d84-3a2f-4230-82c0-9ff2af6d118e",
+                            UserId = "2e2cfc00-0b76-4c61-920e-ed6f43778790"
+                        },
+                        new
+                        {
+                            Id = "5980288c-53c5-44fb-b1d5-dcbb3e2528d9",
+                            Count = 6,
+                            ProductId = "691880e6-9963-4843-b16a-0caa6db921e8",
+                            ShoppingCartId = "3a5ab03f-9a51-435b-965c-b6027efc610a",
+                            UserId = "b9418aad-4285-4d05-b354-709ff1ed64db"
+                        },
+                        new
+                        {
+                            Id = "0f92c4bf-c75c-4a2e-bcf8-12db0c5a1e62",
+                            Count = 6,
+                            ProductId = "a31627b8-0843-4687-a8ad-c145499adf8c",
+                            ShoppingCartId = "4de67e63-4d16-424c-9225-94302e48232c",
+                            UserId = "e68dfbda-9052-4bd2-b0a4-7ca76e5bdfb9"
+                        },
+                        new
+                        {
+                            Id = "57100dce-8c13-428f-b96a-615f77ad844e",
+                            Count = 8,
+                            ProductId = "4b4483be-aef2-4cbe-9561-176533230a2e",
+                            ShoppingCartId = "41e405ba-d11d-42d7-b462-94ec83f95fc8",
+                            UserId = "e7cac291-487f-46b2-a1ab-7ccce946f2d6"
+                        },
+                        new
+                        {
+                            Id = "d09e0e6f-0b3e-4ffd-9742-82ed1427f901",
+                            Count = 8,
+                            ProductId = "7670c434-42d3-4a37-a552-2eebb9e5a9ea",
+                            ShoppingCartId = "0234b431-517a-4e0b-9c54-6cdf1ed98394",
+                            UserId = "82e8a82f-489d-4c4b-aa91-1e61d35290a2"
+                        },
+                        new
+                        {
+                            Id = "359b1ff5-4c63-42d9-af95-a9065598ac82",
+                            Count = 5,
+                            ProductId = "9ae39737-7d17-4a44-ab9a-a6d5f8230b0b",
+                            ShoppingCartId = "fa63cda4-c45d-448e-814c-01a6966d1337",
+                            UserId = "ae9778f0-d32a-48c5-9e71-3180c710c1bb"
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -353,8 +1494,9 @@ namespace e_commerceApp.Shared.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -363,7 +1505,7 @@ namespace e_commerceApp.Shared.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -377,8 +1519,9 @@ namespace e_commerceApp.Shared.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -387,7 +1530,7 @@ namespace e_commerceApp.Shared.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -398,8 +1541,9 @@ namespace e_commerceApp.Shared.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -408,13 +1552,13 @@ namespace e_commerceApp.Shared.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -423,10 +1567,10 @@ namespace e_commerceApp.Shared.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -442,13 +1586,51 @@ namespace e_commerceApp.Shared.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("e_commerceApp.Shared.Models.CartItem", b =>
+            modelBuilder.Entity("e_commerceApp.Shared.Models.Order", b =>
                 {
-                    b.HasOne("e_commerceApp.Shared.Models.Cart", null)
-                        .WithMany("CartItems")
-                        .HasForeignKey("CartId")
+                    b.HasOne("e_commerceApp.Shared.Models.Auth.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("e_commerceApp.Shared.Models.OrderDetail", b =>
+                {
+                    b.HasOne("e_commerceApp.Shared.Models.OrderHeader", "OrderHeader")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderHeaderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("e_commerceApp.Shared.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("e_commerceApp.Shared.Models.Auth.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OrderHeader");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("e_commerceApp.Shared.Models.OrderHeader", b =>
+                {
+                    b.HasOne("e_commerceApp.Shared.Models.Auth.User", "User")
+                        .WithMany("OrderHeaders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("e_commerceApp.Shared.Models.OrderItem", b =>
@@ -458,9 +1640,64 @@ namespace e_commerceApp.Shared.Migrations
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("e_commerceApp.Shared.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+            modelBuilder.Entity("e_commerceApp.Shared.Models.Product", b =>
+                {
+                    b.HasOne("e_commerceApp.Shared.Models.Category", "Cartegory")
+                        .WithMany("Products")
+                        .HasForeignKey("CartegoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cartegory");
+                });
+
+            modelBuilder.Entity("e_commerceApp.Shared.Models.Review", b =>
+                {
+                    b.HasOne("e_commerceApp.Shared.Models.Product", null)
+                        .WithMany("Reviews")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("e_commerceApp.Shared.Models.ShoppingCartItem", b =>
+                {
+                    b.HasOne("e_commerceApp.Shared.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("e_commerceApp.Shared.Models.Cart", "Cart")
+                        .WithMany("ShoppingCartItems")
+                        .HasForeignKey("ShoppingCartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("e_commerceApp.Shared.Models.Auth.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("e_commerceApp.Shared.Models.Auth.Role", null)
                         .WithMany()
@@ -469,7 +1706,7 @@ namespace e_commerceApp.Shared.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.HasOne("e_commerceApp.Shared.Models.Auth.User", null)
                         .WithMany()
@@ -478,7 +1715,7 @@ namespace e_commerceApp.Shared.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.HasOne("e_commerceApp.Shared.Models.Auth.User", null)
                         .WithMany()
@@ -487,7 +1724,7 @@ namespace e_commerceApp.Shared.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.HasOne("e_commerceApp.Shared.Models.Auth.Role", null)
                         .WithMany()
@@ -502,23 +1739,43 @@ namespace e_commerceApp.Shared.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.HasOne("e_commerceApp.Shared.Models.Auth.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("e_commerceApp.Shared.Models.Auth.User", b =>
+                {
+                    b.Navigation("OrderHeaders");
                 });
 
             modelBuilder.Entity("e_commerceApp.Shared.Models.Cart", b =>
                 {
-                    b.Navigation("CartItems");
+                    b.Navigation("ShoppingCartItems");
+                });
+
+            modelBuilder.Entity("e_commerceApp.Shared.Models.Category", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("e_commerceApp.Shared.Models.Order", b =>
                 {
                     b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("e_commerceApp.Shared.Models.OrderHeader", b =>
+                {
+                    b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("e_commerceApp.Shared.Models.Product", b =>
+                {
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

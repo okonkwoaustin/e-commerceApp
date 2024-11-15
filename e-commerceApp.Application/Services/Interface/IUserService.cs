@@ -12,9 +12,9 @@ namespace e_commerceApp.Application.Services.Interface
         Task<User> AuthenticateUser(string email, string password);
         Task<List<string>> GetRolesByUser(User user);
         Task<ObjectResult> CreateUser(SignUpModel signUpModel);
-        Task<User> GetUserById(int userId);
+        Task<User> GetUserById(string userId);
         Task<IEnumerable<User>> GetAllUsers();
-        Task<bool> UpdateUser(int userId, User updatedUser);
-        Task<bool> DeleteUser(int userId);
+        Task<bool> UpdateUser(string userId, User updatedUser);
+        Task<bool> DeleteUser(string userId);
     }
 }

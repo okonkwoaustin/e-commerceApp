@@ -9,8 +9,6 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Org.BouncyCastle.Asn1.Ocsp;
-using System;
 using System.Data;
 namespace e_commerceApp.Application.Services.Implementation
 {
@@ -143,7 +141,7 @@ namespace e_commerceApp.Application.Services.Implementation
             }
         }
 
-        public async Task<bool> DeleteUser(int userId)
+        public async Task<bool> DeleteUser(string userId)
         {
             var user = await GetUserById(userId);
             if (user == null) return false;
@@ -163,7 +161,7 @@ namespace e_commerceApp.Application.Services.Implementation
             return role.ToList();
         }
 
-        public async Task<User> GetUserById(int userId)
+        public async Task<User> GetUserById(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());
             return user;
@@ -184,7 +182,7 @@ namespace e_commerceApp.Application.Services.Implementation
             }
         }
 
-        public async Task<bool> UpdateUser(int userId, User updatedUser)
+        public async Task<bool> UpdateUser(string userId, User updatedUser)
         {
             var user = await GetUserById(userId);
             if (user == null) return false;
